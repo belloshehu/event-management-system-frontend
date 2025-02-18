@@ -6,7 +6,7 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "./ui/button";
-import { Drum, Home, MenuIcon, Table } from "lucide-react";
+import { Drum, Handshake, Home, MenuIcon, Table, Users } from "lucide-react";
 import Brand from "./Brand";
 import { motion } from "motion/react";
 import Link from "next/link";
@@ -41,6 +41,14 @@ export default function NavigationDrawer() {
 					<Button variant={"ghost"}>
 						<Drum className="text-inherit text-3xl" size={24} />
 						<Link href="/entertainers">Entertainers</Link>
+					</Button>
+					<Button variant={"ghost"}>
+						<Users className="text-inherit text-3xl" size={24} />
+						<Link href="/entertainers">Events</Link>
+					</Button>
+					<Button variant={"ghost"}>
+						<Handshake className="text-inherit text-3xl" size={24} />
+						<Link href="/entertainers">Partnership</Link>
 					</Button>
 				</motion.nav>
 				<DrawerFooter className="w-full">

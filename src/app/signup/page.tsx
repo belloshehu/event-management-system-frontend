@@ -5,10 +5,10 @@ import Link from "next/link";
 
 export default function SignupPage() {
 	return (
-		<div className="flex items-center justify-center min-h-screen flex-col gap-10 p-10 py-20">
-			<div className="flex justify-between items-center w-full md:w-[30%] px-5 bg-green-50 p-10">
+		<div className="flex items-center justify-center min-h-screen flex-col gap-10 p-5 py-20">
+			<div className="flex justify-between items-center w-full md:w-[30%] p-5 bg-slate-900 rounded-md bg-[url(/event3.jpg)] bg-center bg-no-repeat bg-cover bg-blend-overlay">
 				<Brand />
-				<h1 className="font-bold text-3xl text-center block underline">
+				<h1 className="font-bold text-2xl text-center block underline text-white">
 					Signup
 				</h1>
 			</div>

@@ -30,9 +30,10 @@ export default function Header() {
 			)}
 
 			<nav className="items-center gap-5 hidden md:flex">
-				<Link href="/">Home</Link>
-				<Link href="/about">About</Link>
-				<Link href="/contact">Contact</Link>
+				<Link href="/about">Event centers</Link>
+				<Link href="/contact">Entertainers</Link>
+				<Link href="/contact">Events</Link>
+				<Link href="/contact">Partnership</Link>
 			</nav>
 			{!isMobile && (
 				<Link href="/login">
