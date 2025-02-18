@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 
 type SectionProps = {
 	// Props type definition
@@ -18,7 +19,12 @@ export default function Section({
 	heading,
 }: SectionProps) {
 	return (
-		<section className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-green-50  p-3 md:p-20">
+		<motion.section
+			initial={{ scale: 0.4, opacity: 0.8 }}
+			whileInView={{ scale: 1, opacity: 1 }}
+			transition={{ duration: 0.5 }}
+			className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-green-50  p-3 md:p-20"
+		>
 			<Image
 				src={imageUrl}
 				alt="event"
@@ -43,6 +49,6 @@ export default function Section({
 					</Button>
 				)}
 			</div>
-		</section>
+		</motion.section>
 	);
 }

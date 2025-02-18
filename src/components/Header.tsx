@@ -1,24 +1,45 @@
+"use client";
 import Link from "next/link";
-import Image from "next/image";
 import SearchInput from "./SearchInput";
+import { useIsMobile } from "@/hooks/use-mobile";
+import Brand from "./Brand";
+import { cn } from "@/lib/utils";
+import NavigationDrawer from "./NavigationDrawer";
+import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
+
 export default function Header() {
+	const isMobile = useIsMobile();
+	const pathname = usePathname();
+
+	if (pathname === "/login" || pathname === "/signup") return null;
 	return (
-		<header className="flex items-center justify-between p-5 shadow-none md:px-10">
-			<div className="flex items-center gap-5">
-				<Image src="/vercel.svg" alt="logo" width={50} height={50} />
-				<h1 className="text-2xl font-bold">
-					{process.env.NEXT_PUBLIC_BUSINESS_NAME}
-				</h1>
-			</div>
-			<SearchInput
-				placeholder="Search for event centers"
-				className="w-[30%] m-auto"
-			/>
-			<nav className="flex items-center gap-5">
+		<header
+			className={cn(
+				"flex items-center justify-between p-3 px-5 gap-10 shadow-none md:px-10",
+				{ "shadow-sm": isMobile }
+			)}
+		>
+			<Brand />
+
+			{!isMobile && (
+				<SearchInput
+					placeholder="Search for event centers"
+					className="md:w-[30%] w-[80%] m-auto"
+				/>
+			)}
+
+			<nav className="items-center gap-5 hidden md:flex">
 				<Link href="/">Home</Link>
 				<Link href="/about">About</Link>
 				<Link href="/contact">Contact</Link>
 			</nav>
+			{!isMobile && (
+				<Link href="/login">
+					<Button variant={"default"}>Login</Button>
+				</Link>
+			)}
+			{isMobile && <NavigationDrawer />}
 		</header>
 	);
 }

@@ -1,26 +1,8 @@
 "use client";
 import Hero from "@/components/landing/Hero";
 import Section from "@/components/landing/Section";
-import { Button } from "@/components/ui/button";
-import { arrayRotate } from "@/lib/array";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-
-const images = ["/event.jpg", "/event2.jpg", "/event3.jpg", "/event4.jpg"];
 
 export default function Home() {
-	const [imageUrls, setImageUrls] = useState(images);
-	useEffect(() => {
-		// render the image components alternatively with a delay of 1s
-		let timeOut: NodeJS.Timeout | null = null;
-		timeOut = setTimeout(() => {
-			const newUrls = arrayRotate(imageUrls);
-			setImageUrls([...newUrls]);
-		}, 5000);
-
-		return () => clearTimeout(timeOut as NodeJS.Timeout);
-	}, [imageUrls]);
-
 	return (
 		<main className="relative flex flex-col items-center justify-start py-2 gap-20 w-full p-5 md:p-20 text-center">
 			<Hero />
@@ -41,7 +23,7 @@ export default function Home() {
 			/>
 
 			<Section
-				imageUrl="/event3.jpg"
+				imageUrl="/entertainment.jpg"
 				heading="Are you an entertainer"
 				buttonText="Register with us"
 				description="	Partner with us to join the list of entertainers offering services in various events in our centers"
