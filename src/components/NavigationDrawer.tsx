@@ -44,11 +44,11 @@ export default function NavigationDrawer() {
 					</Button>
 					<Button variant={"ghost"}>
 						<Users className="text-inherit text-3xl" size={24} />
-						<Link href="/entertainers">Events</Link>
+						<Link href="/events">Events</Link>
 					</Button>
 					<Button variant={"ghost"}>
 						<Handshake className="text-inherit text-3xl" size={24} />
-						<Link href="/entertainers">Partnership</Link>
+						<Link href="/partnership">Partnership</Link>
 					</Button>
 				</motion.nav>
 				<DrawerFooter className="w-full">

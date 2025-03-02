@@ -8,9 +8,9 @@ export default function LoginPage() {
 		<div className="flex items-center justify-center min-h-screen flex-col gap-10 p-5 py-20">
 			<div className="flex justify-between items-center w-full md:w-[30%] p-5 bg-slate-900 rounded-md bg-[url(/event3.jpg)] bg-center bg-no-repeat bg-cover bg-blend-overlay">
 				<Brand />
-				<h1 className="font-bold text-2xl text-center block underline text-white">
+				<h5 className="font-normal text-2xl text-center block text-white">
 					Login
-				</h1>
+				</h5>
 			</div>
 			<LoginForm />
 

@@ -8,7 +8,7 @@ export default function SignupPage() {
 		<div className="flex items-center justify-center min-h-screen flex-col gap-10 p-5 py-20">
 			<div className="flex justify-between items-center w-full md:w-[30%] p-5 bg-slate-900 rounded-md bg-[url(/event3.jpg)] bg-center bg-no-repeat bg-cover bg-blend-overlay">
 				<Brand />
-				<h1 className="font-bold text-2xl text-center block underline text-white">
+				<h1 className="font-normal text-2xl text-center block text-white">
 					Signup
 				</h1>
 			</div>
