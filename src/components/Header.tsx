@@ -39,6 +39,7 @@ export default function Header() {
 			<nav className="items-center gap-5 hidden md:flex">
 				{navItems.map(({ name, path }) => (
 					<Link
+						key={path}
 						className={cn("", {
 							"bg-green-100 rounded-sm py-2 px-5": isActivePath(path, pathname),
 						})}
