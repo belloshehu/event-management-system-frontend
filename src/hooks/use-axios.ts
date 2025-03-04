@@ -1,12 +1,13 @@
 import axios from "axios";
 
-export const useAxios = () => {
-	const BACKEND_BASE_URL =
-		process.env.NODE_ENV === "development"
-			? process.env.NEXT_PUBLIC_BACKEND_BASE_URL
-			: "https://snapwash-backend.onrender.com/";
+const BACKEND_BASE_URL =
+	process.env.NODE_ENV === "development"
+		? process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+		: "https://event-centers-management-system-backend.onrender.com";
 
-	const token = localStorage.getItem("token") || "";
+export const useAxios = () => {
+	console.log(BACKEND_BASE_URL);
+	const token = "";
 	const protectedRequest = axios.create({
 		baseURL: BACKEND_BASE_URL,
 	});
@@ -28,9 +29,8 @@ export const useAxios = () => {
 			return response;
 		},
 		(error) => {
-			console.log(error, "error intercepted");
 			if (error?.response?.status === 401) {
-				localStorage.removeItem("token");
+				//localStorage.removeItem("token");
 				//window.location.href = "/login";
 			}
 			return Promise.reject(error);

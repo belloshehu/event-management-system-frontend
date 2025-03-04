@@ -22,8 +22,18 @@ export default function EventCenterDetailPage() {
 		}
 	}, [data]);
 
-	if (isLoading) return <div>Loading...</div>;
-	if (!data) return <div>No data</div>;
+	if (isLoading)
+		return (
+			<div className="min-h-screen flex bg-slate-50 justify-center items-center">
+				<h1 className="text-2xl">Loading ...</h1>
+			</div>
+		);
+	if (!data)
+		return (
+			<div className="min-h-screen flex bg-slate-50 justify-center items-center">
+				<h1 className="text-2xl">No data </h1>
+			</div>
+		);
 
 	const {
 		_id,

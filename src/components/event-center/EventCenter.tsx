@@ -5,7 +5,7 @@ import { EventCenterType } from "@/types/event-center.types";
 import Link from "next/link";
 import EventItems from "../event/event-items";
 
-interface EventCenterProps extends EventCenterType {}
+type EventCenterProps = EventCenterType;
 
 export default function EventCenter({
 	name,

@@ -1,4 +1,5 @@
 import {
+	AddEventCenterResponseType,
 	EventCenterType,
 	GetEventCenterResponseType,
 	GetEventCentersResponseType,
@@ -17,15 +18,17 @@ class EventCenterServiceAPI {
 		const { data } = await publicRequest.get<GetEventCenterResponseType>(
 			`/event-centers/${id}`
 		);
-		console.log(data);
 		return data;
 	}
 
 	public static async addEventCenter(
-		privateRequest: any,
+		privateRequest: AxiosInstance,
 		eventCenter: EventCenterType
 	) {
-		const { data } = await privateRequest.post("/event-centers", eventCenter);
+		const { data } = await privateRequest.post<AddEventCenterResponseType>(
+			"/event-centers",
+			eventCenter
+		);
 		return data;
 	}
 }

@@ -16,8 +16,8 @@ export interface EventCenterType {
 	supported_events_types: string[];
 }
 
-export interface GetEventCentersResponseType
-	extends ResponseType<EventCenterType[]> {}
+export type GetEventCentersResponseType = ResponseType<EventCenterType[]>;
 
-export interface GetEventCenterResponseType
-	extends ResponseType<EventCenterType> {}
+export type GetEventCenterResponseType = ResponseType<EventCenterType>;
+
+export type AddEventCenterResponseType = ResponseType<EventCenterType>;
