@@ -1,5 +1,14 @@
 import { ResponseType } from "./response.types";
 
+export type EventCenterSupportedEventsTypes =
+	| "wedding"
+	| "birthday"
+	| "conference"
+	| "concert"
+	| "party"
+	| "others"
+	| "training";
+
 export interface EventCenterType {
 	_id: string;
 	name: string;
