@@ -1,5 +1,6 @@
 import useSession from "@/lib/session/use-session";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const BACKEND_BASE_URL =
   process.env.NODE_ENV === "development"
@@ -7,7 +8,8 @@ const BACKEND_BASE_URL =
     : "https://event-centers-management-system-backend.onrender.com";
 
 export const useAxios = () => {
-  const { session } = useSession();
+  const { session, logout } = useSession();
+  const router = useRouter();
   const token = session.token || "";
   const protectedRequest = axios.create({
     baseURL: BACKEND_BASE_URL,
@@ -31,8 +33,9 @@ export const useAxios = () => {
     },
     (error) => {
       if (error?.response?.status === 401) {
-        //localStorage.removeItem("token");
-        //window.location.href = "/login";
+        // logout when unauthenitcated error occurs
+        logout();
+        router.push("/login");
       }
       return Promise.reject(error);
     }

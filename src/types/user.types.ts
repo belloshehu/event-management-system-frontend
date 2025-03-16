@@ -20,3 +20,5 @@ export type LoginResponseType = ResponseType<UserType & RefreshTokenType>;
 
 export type RegisterResponseType = ResponseType<UserType>;
 export type LogoutResponseType = ResponseType<UserType>;
+
+export type UserRole = "admin" | "user" | "partner";

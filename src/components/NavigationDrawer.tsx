@@ -7,7 +7,16 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "./ui/button";
-import { Drum, Handshake, Home, MenuIcon, Table, Users } from "lucide-react";
+import {
+  ChevronRight,
+  Drum,
+  Handshake,
+  Home,
+  MenuIcon,
+  Table,
+  UserCircle,
+  Users,
+} from "lucide-react";
 import Brand from "./Brand";
 import { motion } from "motion/react";
 import Link from "next/link";
@@ -16,16 +25,26 @@ import { NavButton } from "./NavButton";
 import useSession from "@/lib/session/use-session";
 import { useLogout } from "@/hooks/service-hooks/auth.hook";
 import { useAxios } from "@/hooks/use-axios";
+import { Separator } from "./ui/separator";
 
-export default function NavigationDrawer() {
+export default function NavigationDrawer({
+  setOpenUserNavDrawer,
+  openDrawer,
+}: {
+  setOpenUserNavDrawer: (open: boolean) => void;
+  openDrawer: boolean;
+}) {
   const pathname = usePathname();
   const { session } = useSession();
+  const {
+    user: { firstName, lastName, email, role },
+  } = session;
   const { mutateAsync } = useLogout();
   const { protectedRequest } = useAxios();
   if (pathname === "/login" || pathname === "/signup") return null;
 
   return (
-    <Drawer direction="left">
+    <Drawer direction="left" defaultOpen={openDrawer}>
       <DrawerTrigger>
         <Button variant={"ghost"} size={"icon"} className="">
           <MenuIcon size={34} className="text-green-600" />
@@ -35,12 +54,38 @@ export default function NavigationDrawer() {
       <DrawerContent>
         <DrawerHeader className="shadow-sm py-3">
           <Brand />
+          {session.isLoggedIn && (
+            <>
+              <Separator className="mx-2" />
+              <div className="flex items-center gap-2 space-y-1">
+                <UserCircle size={30} className="text-gray-500" />
+                <div className="flex flex-col">
+                  <span className=" text-gray-900">
+                    {firstName} {lastName} <small>({role})</small>
+                  </span>
+                  <span className="text-xs text-gray-500">{email}</span>
+                </div>
+                <Button
+                  variant={"ghost"}
+                  size={"icon"}
+                  className="ml-auto rounded-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenUserNavDrawer(true);
+                  }}
+                >
+                  <ChevronRight className="text-gray-500 " size={24} />
+                  <span className="sr-only">menu button</span>
+                </Button>
+              </div>
+            </>
+          )}
         </DrawerHeader>
         <motion.nav
           initial={{ scale: 0.6 }}
           whileInView={{ scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-start items-start flex-col p-0 py-8 gap-1"
+          className="flex justify-start items-start flex-col p-0 py-6 gap-1"
         >
           <NavButton pathname="/" currentPathname={pathname}>
             <Home className="text-inherit text-3xl" size={30} />
