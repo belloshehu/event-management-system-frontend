@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 
 export default function LoginForm() {
   const { mutate, isPending } = useLogin();
@@ -68,8 +69,12 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button disabled={isPending} className="btn btn-primary" type="submit">
-          Submit
+        <Button
+          disabled={isPending}
+          className={cn("btn btn-primary", { "animate-pulse": isPending })}
+          type="submit"
+        >
+          {isPending ? "Loading..." : "Login"}
         </Button>
       </form>
     </Form>

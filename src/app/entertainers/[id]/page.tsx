@@ -62,9 +62,7 @@ export default function EntertainerDetailPage() {
     price,
     state,
     type,
-    userId: {
-      user: { firstName, lastName },
-    },
+    userId: { firstName, lastName },
   } = data.data;
 
   return (

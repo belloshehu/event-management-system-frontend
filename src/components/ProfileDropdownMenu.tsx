@@ -10,6 +10,9 @@ import { UserCircle } from "lucide-react";
 import useSession from "@/lib/session/use-session";
 import { useLogout } from "@/hooks/service-hooks/auth.hook";
 import { useAxios } from "@/hooks/use-axios";
+import useCreateNavbar from "@/hooks/use-nav-items";
+import { NavigationItemType } from "@/types/navigation.types";
+import Link from "next/link";
 
 export default function ProfileDropdownMenu() {
   const {
@@ -19,6 +22,28 @@ export default function ProfileDropdownMenu() {
   } = useSession();
   const { mutateAsync } = useLogout();
   const { protectedRequest } = useAxios();
+  const { session } = useSession();
+  const renderNavItems = useCreateNavbar(
+    session.user.role,
+    (navItems: NavigationItemType[]) => {
+      return navItems.map((item, index) => {
+        return (
+          <DropdownMenuItem key={index}>
+            {/* <NavButton
+              className="w-full text-left flex justify-start items-center"
+              key={index}
+              pathname={item.path}
+              currentPathname={currentPathname}
+            > */}
+            <Link className="text-left" href={item.path}>
+              {item.name}
+            </Link>
+            {/* </NavButton> */}
+          </DropdownMenuItem>
+        );
+      });
+    }
+  );
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -35,12 +60,7 @@ export default function ProfileDropdownMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Events</DropdownMenuItem>
-        <DropdownMenuItem>Event Centers</DropdownMenuItem>
-        <DropdownMenuItem>Entertainers</DropdownMenuItem>
-        <DropdownMenuItem>Partners</DropdownMenuItem>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Notifications</DropdownMenuItem>
+        {renderNavItems}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={async () => {

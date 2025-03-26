@@ -1,0 +1,32 @@
+export const tabs = {
+  admin: [
+    "events",
+    "event-centers",
+    "entertainers",
+    "partnership",
+    "bookings",
+    "favorites",
+    "settings",
+    "messages",
+    "notifications",
+  ],
+  user: [
+    "events",
+    "event-centers",
+    "entertainers",
+    "bookings",
+    "favorites",
+    "settings",
+    "messages",
+  ],
+  partner: [
+    "events",
+    "event-centers",
+    "partnership",
+    "bookings",
+    "favorites",
+    "settings",
+    "messages",
+    "notifications",
+  ],
+};

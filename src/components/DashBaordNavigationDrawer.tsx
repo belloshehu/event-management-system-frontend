@@ -23,8 +23,15 @@ const renderNavItems = (userRole: UserRole, currentPathname: string) => {
   const makeNavList = (navItems: NavigationItemType[]) => {
     return navItems.map((item, index) => {
       return (
-        <NavButton key={index} pathname={item.path} currentPathname={currentPathname}>
-          <Link href={item.path}>{item.name}</Link>
+        <NavButton
+          className="w-full text-left flex justify-start items-center"
+          key={index}
+          pathname={item.path}
+          currentPathname={currentPathname}
+        >
+          <Link className="text-left" href={item.path}>
+            {item.name}
+          </Link>
         </NavButton>
       );
     });
@@ -59,12 +66,18 @@ export default function DashBoardNavigationDrawer({
 
   return (
     <Drawer direction="left" defaultOpen={open}>
-      <DrawerTrigger>
-        <Button variant={"ghost"} size={"icon"} className="" onClick={closeDrawer}>
-          <MenuIcon size={34} className="text-green-600" />
-          <span className="sr-only">nav drawer</span>
-        </Button>
-      </DrawerTrigger>
+      {
+        /* Drawer Trigger */
+
+        !open && (
+          <DrawerTrigger>
+            <Button variant={"ghost"} size={"icon"} className="" onClick={closeDrawer}>
+              <MenuIcon size={34} className="text-green-600" />
+              <span className="sr-only">nav drawer</span>
+            </Button>
+          </DrawerTrigger>
+        )
+      }
       <DrawerContent>
         <DrawerHeader className="shadow-sm py-3 flex items-center gap-2">
           {/* button to close the drawer*/}
@@ -82,21 +95,9 @@ export default function DashBoardNavigationDrawer({
           initial={{ scale: 0.6 }}
           whileInView={{ scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-start items-start flex-col p-0 py-6 gap-1"
+          className="flex justify-start items-start flex-col px-1 py-6 gap-1"
         >
           {renderNavItems(user.role, pathname)}
-          {/* <NavButton pathname="/" currentPathname={pathname}>
-            <Link href="/">Profile</Link>
-          </NavButton>
-          <NavButton pathname="/event-centers" currentPathname={pathname}>
-            <Link href="/event-centers">Event centers</Link>
-          </NavButton>
-          <NavButton pathname="/entertainers" currentPathname={pathname}>
-            <Link href="/entertainers">Entertainers</Link>
-          </NavButton>
-          <NavButton pathname="/events" currentPathname={pathname}>
-            <Link href="/events">Events</Link>
-          </NavButton> */}
         </motion.nav>
         <DrawerFooter className="w-full">
           <NavButton pathname="/partnership" currentPathname={pathname}>

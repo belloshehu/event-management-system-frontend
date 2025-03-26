@@ -1,7 +1,7 @@
-import { UserType } from "@/types/user.types";
+import { UserAuthType } from "@/types/user.types";
 import { SessionOptions } from "iron-session";
 
-export interface SessionData extends UserType {
+export interface SessionData extends UserAuthType {
   token: string;
   refreshToken: string;
   expiresIn: number;

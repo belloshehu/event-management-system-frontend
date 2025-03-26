@@ -21,9 +21,7 @@ export default function Entertainer({
   type,
   availability,
   performance_languages,
-  userId: {
-    user: { firstName, lastName },
-  },
+  userId: { firstName, lastName },
   price,
   currency,
   _id,

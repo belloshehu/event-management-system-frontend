@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 import { defaultSession, SessionData } from "./session.lib";
-import { RefreshTokenType, UserType } from "@/types/user.types";
+import { RefreshTokenType, UserAuthType } from "@/types/user.types";
 const sessionAPIRoute = "/api/session";
 
 async function fetchJson<JSON = unknown>(
@@ -17,7 +17,7 @@ async function fetchJson<JSON = unknown>(
   }).then((res) => res.json());
 }
 
-function doLogin(url: string, { arg }: { arg: UserType & RefreshTokenType }) {
+function doLogin(url: string, { arg }: { arg: UserAuthType & RefreshTokenType }) {
   return fetchJson<SessionData>(url, {
     method: "POST",
     body: JSON.stringify({ ...arg }),

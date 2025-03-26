@@ -1,4 +1,4 @@
 export interface ResponseType<IData> {
-	message: string;
-	data: IData;
+  message: string;
+  data: IData;
 }
