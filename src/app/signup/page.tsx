@@ -1,5 +1,5 @@
 import Brand from "@/components/Brand";
-import SignupForm from "@/components/forms/SignupForm";
+import SignupForm from "@/components/auth/SignupForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

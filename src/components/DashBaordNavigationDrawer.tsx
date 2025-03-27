@@ -70,11 +70,11 @@ export default function DashBoardNavigationDrawer({
         /* Drawer Trigger */
 
         !open && (
-          <DrawerTrigger>
-            <Button variant={"ghost"} size={"icon"} className="" onClick={closeDrawer}>
-              <MenuIcon size={34} className="text-green-600" />
-              <span className="sr-only">nav drawer</span>
-            </Button>
+          <DrawerTrigger onClick={closeDrawer}>
+            {/* <Button variant={"ghost"} size={"icon"} className="" onClick={closeDrawer}> */}
+            <MenuIcon size={34} className="text-green-600" />
+            <span className="sr-only">nav drawer</span>
+            {/* </Button> */}
           </DrawerTrigger>
         )
       }

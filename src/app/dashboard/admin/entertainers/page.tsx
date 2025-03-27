@@ -6,6 +6,7 @@ import useSession from "@/lib/session/use-session";
 import { useRouter } from "next/navigation";
 import EntertainerTabs from "@/components/entertainer/EntertainerTabs";
 import { Button } from "@/components/ui/button";
+import AddEntertainerDialog from "@/components/entertainer/AddEntertainerDialog";
 
 export default function AdminDashboardPage() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -21,7 +22,7 @@ export default function AdminDashboardPage() {
         >
           Entertainers
         </h1>
-        <Button className="bg-green-500">Add Entertainer</Button>
+        <AddEntertainerDialog />
       </div>
       {isMobile && <SearchInput placeholder="Search for events" />}
       <EntertainerTabs />

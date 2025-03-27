@@ -2,7 +2,7 @@
 import Event from "@/components/event/Event";
 import { useGetEvents } from "@/hooks/service-hooks/event.hook";
 import NoEventDataCard from "./NoEventDataCard";
-import { NoDataOptions } from "@/types/data";
+import { NoDataOptions } from "@/types/data.types";
 
 export default function EventList({ NoDataOptions }: { NoDataOptions?: NoDataOptions }) {
   const { data, isLoading } = useGetEvents();

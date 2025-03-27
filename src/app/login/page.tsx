@@ -1,5 +1,5 @@
 import Brand from "@/components/Brand";
-import LoginForm from "@/components/forms/LoginForm";
+import LoginForm from "@/components/auth/LoginForm";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

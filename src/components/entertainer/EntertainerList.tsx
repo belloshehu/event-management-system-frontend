@@ -2,7 +2,7 @@
 import { useGetEntertainers } from "@/hooks/service-hooks/entertainer.hooks";
 import Entertainer from "./Entertainer";
 import NoEntertainerDataCard from "./NoEntertainerDataCard";
-import { NoDataOptions } from "@/types/data";
+import { NoDataOptions } from "@/types/data.types";
 
 export default function EntertainerList({
   noDataOptions,

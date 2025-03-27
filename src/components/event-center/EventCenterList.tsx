@@ -2,7 +2,7 @@
 import { useGetEventCenters } from "@/hooks/service-hooks/event-center.hooks";
 import EventCenter from "./EventCenter";
 import NoEventCenterDataCard from "./NoEventCenterDataCard";
-import { NoDataOptions } from "@/types/data";
+import { NoDataOptions } from "@/types/data.types";
 
 export default function EventCenterList({
   NoDataOptions,

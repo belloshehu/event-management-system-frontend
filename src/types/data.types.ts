@@ -3,3 +3,8 @@ export interface NoDataOptions {
   message: string;
   className?: string;
 }
+
+export interface SelectDataType {
+  value: string;
+  label: string;
+}

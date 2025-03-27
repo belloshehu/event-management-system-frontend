@@ -46,10 +46,10 @@ export default function NavigationDrawer({
   return (
     <Drawer direction="left" defaultOpen={openDrawer}>
       <DrawerTrigger>
-        <Button variant={"ghost"} size={"icon"} className="">
-          <MenuIcon size={34} className="text-green-600" />
-          <span className="sr-only">nav drawer</span>
-        </Button>
+        {/* <Button variant={"ghost"} size={"icon"} className=""> */}
+        <MenuIcon size={34} className="text-green-600" />
+        <span className="sr-only">nav drawer</span>
+        {/* </Button> */}
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="shadow-sm py-3">
