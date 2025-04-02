@@ -33,7 +33,7 @@ export default function EventCenter({
 
       {/* supported events */}
       <EventItems items={supported_events_types} />
-      <div className="flex items-start justify-start flex-col gap-0">
+      <div className="flex items-start justify-start flex-col gap-0 flex-1">
         <div className="flex items-center justify-start gap-1">
           <Users size={16} className="text-green-500" />
           <p className="text-sm" aria-label="capacity">

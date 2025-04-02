@@ -17,7 +17,7 @@ export default function EntertainerList({
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full md:w-4/5">
       {data.data?.map((entertainer) => (
-        <Entertainer {...entertainer} key={entertainer._id} />
+        <Entertainer data={entertainer} key={entertainer._id} />
       ))}
     </section>
   );

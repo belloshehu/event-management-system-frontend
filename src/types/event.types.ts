@@ -19,3 +19,4 @@ export interface EventType {
 }
 export type GetEventsResponseType = ResponseType<EventType[]>;
 export type GetSingleEventResponseType = ResponseType<EventType>;
+export type AddEventResponseType = ResponseType<EventType>;

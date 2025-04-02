@@ -5,10 +5,7 @@ import { robotoMono } from "@/app/fonts";
 import useSession from "@/lib/session/use-session";
 import { useRouter } from "next/navigation";
 import EventCenterTabs from "@/components/event-center/EventCenterTabs";
-import { Button } from "@/components/ui/button";
 import AddEventCenterDialog from "@/components/event-center/AddEventCenterDialog";
-import MultipleSelect from "@/components/MultipleSelect";
-import { supportedEvents } from "@/constants/form.data";
 
 export default function AdminDashboardPage() {
   const isMobile = useMediaQuery("(max-width: 768px)");

@@ -95,7 +95,7 @@ export default function EventCenterDetailPage() {
               {address}, {city}, {state}, {country}
             </p>
           </div>
-          <Link href={`/booking/${_id}`}>
+          <Link href={`/booking/event-center/${_id}`}>
             <Button className="w-full mt-2 bg-green-500 font-semibold">
               Proceed to booking
             </Button>

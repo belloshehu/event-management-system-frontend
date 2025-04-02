@@ -29,7 +29,6 @@ import {
 } from "@/schemas/entertainer.schema";
 import FormSelect from "../form-fields/FormSelect";
 import { useCreateEntertainer } from "@/hooks/service-hooks/entertainer.hooks";
-import { on } from "events";
 
 export default function EntertainerForm({ onClose }: { onClose: () => void }) {
   const { mutateAsync, isPending } = useCreateEntertainer();

@@ -5,7 +5,6 @@ import { robotoMono } from "@/app/fonts";
 import useSession from "@/lib/session/use-session";
 import { useRouter } from "next/navigation";
 import EntertainerTabs from "@/components/entertainer/EntertainerTabs";
-import { Button } from "@/components/ui/button";
 import AddEntertainerDialog from "@/components/entertainer/AddEntertainerDialog";
 
 export default function AdminDashboardPage() {

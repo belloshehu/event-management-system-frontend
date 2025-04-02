@@ -21,7 +21,7 @@ export default function AddEntertainerDialog() {
         <DialogHeader>
           <DialogDescription className="flex flex-col gap-5 overflow-y-auto max-[80vh]">
             Fill the form to add a new entertainer
-            <EntertainerForm onClose={() => setIsOpen(false)} />
+            <EntertainerForm onClose={() => setIsOpen(!isOpen)} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

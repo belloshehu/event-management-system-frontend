@@ -2,7 +2,7 @@ import EntertainerServiceAPI from "@/services/entertainer.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAxios } from "../use-axios";
 import { toast } from "sonner";
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 // hook for fetching all entertainers
 export const useGetEntertainers = () => {
@@ -36,7 +36,7 @@ export const useCreateEntertainer = () => {
       queryClient.invalidateQueries({ queryKey: ["entertainers"] });
     },
     onError: (error) => {
-      const err = error as AxiosError<any>;
+      const err = error as AxiosError<{ message: string }>;
       toast.error(err.response?.data?.message || "Failed to create entertainer");
       console.log(error);
     },

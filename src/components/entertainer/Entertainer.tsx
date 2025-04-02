@@ -5,7 +5,10 @@ import { Button } from "../ui/button";
 import Item from "../ui/items";
 import Link from "next/link";
 
-type EntertainerProps = EntertainerType;
+interface EntertainerProps {
+  data: EntertainerType;
+  simple?: boolean;
+}
 
 const renderSupportedLanguages = (languages: string[]) => (
   <ul className="flex items-start flex-wrap gap-1">
@@ -15,17 +18,41 @@ const renderSupportedLanguages = (languages: string[]) => (
   </ul>
 );
 
-export default function Entertainer({
-  name,
-  images,
-  type,
-  availability,
-  performance_languages,
-  userId: { firstName, lastName },
-  price,
-  currency,
-  _id,
-}: EntertainerProps) {
+export default function Entertainer({ data, simple }: EntertainerProps) {
+  const {
+    name,
+    images,
+    type,
+    availability,
+    performance_languages,
+    userId: { firstName, lastName },
+    price,
+    currency,
+    _id,
+  } = data;
+
+  // if simple, render a simple card
+  // Simple card is used in the event center booking page
+
+  if (simple) {
+    return (
+      <div className="w-full flex gap-4">
+        <Image
+          src={images[0]}
+          alt={name}
+          width={100}
+          height={100}
+          className="object-cover rounded-md"
+        />
+        <div>
+          <h3>{name}</h3>
+          <h3 className="font-bold text-xl md:text-3xl">
+            {price} <span className="text-sm font-normal">{currency}</span>
+          </h3>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="w-full flex-1 hover:scale-105 transition-all duration-300 rounded-md relative flex flex-col group items-start justify-start shadow-md">
       <Image

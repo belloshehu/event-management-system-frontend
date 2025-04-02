@@ -170,9 +170,9 @@ export default function EventCenterForm() {
                   data={supportedEvents}
                   placeholder="Select supported event"
                   {...field}
-                  onChange={(value) => {
-                    field.onChange(value);
-                  }}
+                  // onChange={(value) => {
+                  //   field.onChange(value);
+                  // }}
                 />
               </FormControl>
               <FormMessage />
