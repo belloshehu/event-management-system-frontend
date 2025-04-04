@@ -1,237 +1,195 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAxios } from "@/hooks/use-axios";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import {
   eventCenterValidationSchema,
   EventCenterValidationSchemaType,
 } from "@/schemas/event-center.schema";
-import { Textarea } from "../ui/textarea";
 import { supportedEvents } from "@/constants/form.data";
 import { useCreateEventCenter } from "@/hooks/service-hooks/event-center.hooks";
-import MultipleSelect from "../MultipleSelect";
+import FormInputField from "../form-fields/FormInput";
+import FormTextarea from "../form-fields/FormTextarea";
+import FormMultiSelect from "../form-fields/FormMultiSelect";
+import FormImagesUploader from "../form-fields/FormImagesUploader";
+import useFileUpload from "@/hooks/use-file-upload";
+import { toast } from "sonner";
+import { LoadingDialog } from "../LoadingDialog";
 
-export default function EventCenterForm() {
-  const { mutate, isPending } = useCreateEventCenter();
+export default function EventCenterForm({ onClose }: { onClose?: () => void }) {
+  const { mutateAsync, isPending } = useCreateEventCenter();
   const { protectedRequest } = useAxios();
+  const { uploadToCloudinary, isProgressing } = useFileUpload();
 
   const form = useForm({
     resolver: zodResolver(eventCenterValidationSchema),
-
-    defaultValues: {
-      images: [
-        "https://res.cloudinary.com/sightek/image/upload/v1740954431/event4_mmmo3m.jpg",
-        "https://res.cloudinary.com/sightek/image/upload/v1740954394/event3_yhumim.jpg",
-      ],
-    },
+    defaultValues: {},
   });
 
   const onSubmit = async (data: EventCenterValidationSchemaType) => {
-    mutate({ protectedRequest, payload: data });
+    // upload the images to cloudinary
+    const images = [];
+    for (let i = 0; i < data.images.length; i++) {
+      const image = data.images[i];
+      const { data_url } = image;
+      const { secure_url } = await uploadToCloudinary(data_url);
+      images.push(secure_url);
+    }
+
+    if (images.length == 0) {
+      toast.error("Failed to upload images");
+      return;
+    }
+    const transformedData = {
+      ...data,
+      images,
+    };
+    await mutateAsync({
+      protectedRequest,
+      payload: transformedData,
+    });
+    // reset after submit
+    form.reset();
+    // close modal
+    onClose && onClose();
   };
-  const { handleSubmit, control } = form;
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = form;
+
   return (
     <Form {...form}>
+      <LoadingDialog
+        loadingText="Creating event center"
+        open={isProgressing || isPending}
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="rounded-md space-y-8 py-5 p-5 md:p-10 border-[1px] max-h-[80vh] overflow-y-auto w-full"
+        className="rounded-md p-5 border-[1px] flex flex-col justify-start text-left max-h-[80vh] space-y-5 overflow-y-auto w-full"
       >
-        <FormField
+        <FormInputField
           control={control}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Name of event center" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Event center name"
+          type="text"
+          id="name"
+          placeholder="Enter event center name"
+          errorMessage={errors.name?.message}
         />
-        <FormField
+
+        <FormTextarea
+          control={control}
+          label="Description"
+          name="description"
+          id="description"
+          placeholder="Description of entertainer"
+          errorMessage={errors.description?.message}
+        />
+
+        <FormInputField
           control={control}
           name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter address" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Event center address"
+          type="text"
+          id="address"
+          placeholder="Enter event center address"
+          errorMessage={errors.address?.message}
         />
-        <FormField
+
+        <FormInputField
           control={control}
           name="country"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Country</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter country" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Country"
+          type="text"
+          id="country"
+          placeholder="Enter country"
+          errorMessage={errors.country?.message}
         />
-        <FormField
+
+        <FormInputField
           control={control}
           name="state"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>State</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter state" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="State"
+          type="text"
+          id="state"
+          placeholder="Enter state"
+          errorMessage={errors.state?.message}
         />
-        <FormField
+        <FormInputField
           control={control}
           name="city"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>City</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter City" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="capacity"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Capacity</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Capacity of the event center"
-                  {...field}
-                  type="number"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="City"
+          type="text"
+          id="city"
+          placeholder="Enter city"
+          errorMessage={errors.city?.message}
         />
 
-        <FormField
-          control={control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Description of event center" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
+        <FormInputField
           control={control}
           name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price</FormLabel>
-              <FormControl>
-                <Input placeholder="Price of rent" {...field} type="number" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Price"
+          type="number"
+          id="price"
+          placeholder="Price of entertainer"
+          errorMessage={errors.price?.message}
         />
 
-        <FormField
+        <FormInputField
           control={control}
+          name="capacity"
+          label="Capacity"
+          type="number"
+          id="capacity"
+          placeholder="Capacity of the event center"
+          errorMessage={errors.capacity?.message}
+        />
+
+        <FormMultiSelect
+          label="Matching events"
           name="supported_events_types"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Supported Events</FormLabel>
-              <FormControl>
-                <MultipleSelect
-                  data={supportedEvents}
-                  placeholder="Select supported event"
-                  {...field}
-                  // onChange={(value) => {
-                  //   field.onChange(value);
-                  // }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          control={control}
+          options={supportedEvents}
+          placeholder={"Select events"}
+          emptyMessage="No events found"
         />
 
         {/* contact */}
-        <FormField
+        <FormInputField
           control={control}
           name="contact_number"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone number</FormLabel>
-              <FormControl>
-                <Input placeholder="Phone number" {...field} type="tel" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Phone number"
+          type="tel"
+          id="contact_number"
+          placeholder="Phone number"
+          errorMessage={errors.contact_number?.message}
         />
-        <FormField
+
+        <FormInputField
           control={control}
           name="contact_email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Contact email" {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Email"
+          type="email"
+          id="contact_email"
+          placeholder="Contact email"
+          errorMessage={errors.contact_email?.message}
         />
-        {/* images */}
 
-        {/* <FormField
+        {/* images */}
+        <FormImagesUploader
           control={control}
           name="images"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Upload image</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Upload event center image"
-                  {...field}
-                  type="file"
-                  onChange={(e) => {
-                    form.setValue("images", [
-                      ...(form.getValues("images") || []),
-                      e.target.value,
-                    ]);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
+          label="Event center Images"
+          maxImageSize={1000000}
+          maxNumber={10}
+          multiple={true}
+        />
 
         <Button
           disabled={isPending}

@@ -1,3 +1,5 @@
+"use client";
+
 import useSession from "@/lib/session/use-session";
 import axios from "axios";
 import { useRouter } from "next/navigation";

@@ -56,7 +56,9 @@ export default function EventForm({
   const { mutate: deleteEvent, isPending: isDeletingEvent } = useDeleteEvent();
   const { mutateAsync: bookEventCenter, isPending: isBookingEventCenter } =
     useBookEventCenter();
-  const { data, isLoading } = useGetEntertainers();
+  const { data, isLoading } = useGetEntertainers({
+    filter: { availability: "available" },
+  });
   const { protectedRequest } = useAxios();
   const [withEntertainers, setWithEntertainers] = useState(false);
   const router = useRouter();

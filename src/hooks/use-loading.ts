@@ -1,5 +1,3 @@
-import { get } from "http";
-
 interface LoadingType {
   message: string;
   state: boolean;

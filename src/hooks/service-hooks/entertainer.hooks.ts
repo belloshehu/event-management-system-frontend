@@ -5,11 +5,16 @@ import { toast } from "sonner";
 import { AxiosError } from "axios";
 
 // hook for fetching all entertainers
-export const useGetEntertainers = () => {
+export const useGetEntertainers = ({
+  filter,
+}: {
+  filter: { availability: "available" | "booked" | "all" };
+}) => {
   const { publicRequest } = useAxios();
   return useQuery({
-    queryFn: async () => await EntertainerServiceAPI.getEntertainers({ publicRequest }),
-    queryKey: ["entertainers"],
+    queryFn: async () =>
+      await EntertainerServiceAPI.getEntertainers({ publicRequest, filter }),
+    queryKey: ["entertainers", filter],
   });
 };
 

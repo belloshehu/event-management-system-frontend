@@ -1,11 +1,15 @@
+"use client";
 import { cloudinaryConfig } from "@/config/cloudinary.config";
 import {
   CloudinaryDestroyesponseType,
   CloudinaryUploadResponseType,
 } from "@/types/data.types";
+import { useState } from "react";
 import sha1 from "sha1";
+import { set } from "zod";
 
 export default function useFileUpload() {
+  const [isProgressing, setIsProgressing] = useState(false);
   const uploadToCloudinary = async (file: any) => {
     // upload a base64 image to cloudinary
     const cloud_name: string = cloudinaryConfig.cloudName!;
@@ -14,6 +18,7 @@ export default function useFileUpload() {
     data.append("upload_preset", "event-center");
     data.append("cloud_name", cloud_name);
     // data.append("unique_filename", true);
+    setIsProgressing(true);
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
       {
@@ -22,6 +27,7 @@ export default function useFileUpload() {
       }
     );
     const jsonResponse: CloudinaryUploadResponseType = await response.json();
+    setIsProgressing(false);
     return jsonResponse;
   };
 
@@ -31,6 +37,7 @@ export default function useFileUpload() {
     const rawSignature = `public_id=${publicId}&timestamp=${timestamp}${cloudinaryConfig.apiSecret}`;
     const signature = sha1(rawSignature);
     const cloud_name = cloudinaryConfig.cloudName!;
+    setIsProgressing(true);
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${cloud_name}/image/destroy`,
       {
@@ -49,6 +56,7 @@ export default function useFileUpload() {
       }
     );
     const jsonResponse: CloudinaryDestroyesponseType = await response.json();
+    setIsProgressing(false);
     return jsonResponse;
   };
 
@@ -56,5 +64,5 @@ export default function useFileUpload() {
     // upload a base64 image to S3 bucket
     console.log(file);
   };
-  return { uploadToCloudinary, uploadToS3, deleteFromCloudinary };
+  return { uploadToCloudinary, uploadToS3, deleteFromCloudinary, isProgressing };
 }

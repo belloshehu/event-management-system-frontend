@@ -35,7 +35,9 @@ export default function EventCenterBookingPage() {
   const [activeImage, setActiveImage] = useState("");
   const { id } = useParams();
   const { data, isLoading } = useGetEventCenter(id as string);
-  const { data: entertainers } = useGetEntertainers();
+  const { data: entertainers } = useGetEntertainers({
+    filter: { availability: "available" },
+  });
   const [selectedEntertertainers, setSelectedEntertainers] = useState<string[] | null>(
     null
   );

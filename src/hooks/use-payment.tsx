@@ -1,3 +1,4 @@
+"use client";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { FlutterwaveConfigType } from "@/config/flutterwave.config";
 

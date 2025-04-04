@@ -2,6 +2,7 @@ import EventCenterServiceAPI from "@/services/event-center.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAxios } from "../use-axios";
 import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 export const useGetEventCenters = () => {
   const { publicRequest } = useAxios();
@@ -49,8 +50,8 @@ export const useBookEventCenter = () => {
       toast.success("Event center booked successfully");
       queryClient.invalidateQueries({ queryKey: ["event-centers", "events"] });
     },
-    onError: (error) => {
-      toast.error("Failed to book event center");
+    onError: (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data?.message || "Failed to create entertainer");
       console.error(error);
     },
   });

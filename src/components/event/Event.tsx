@@ -3,7 +3,6 @@ import Image from "next/image";
 import EventItems from "../event/event-items";
 import { EventType } from "@/types/event.types";
 import { formatDate } from "@/lib/timedate";
-import Link from "next/link";
 
 type EventProps = EventType;
 

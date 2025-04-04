@@ -3,7 +3,7 @@ import z from "zod";
 
 export const entertainerValidationSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters long"),
-  images: z.array(z.string()).min(1, "At least one image is required"),
+  images: z.array(z.any()).min(1, "At least one image is required"),
   description: z.string().min(20, "Description must be at least 20 characters long"),
   contact_number: z
     .string()

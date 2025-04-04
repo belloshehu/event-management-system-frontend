@@ -5,7 +5,7 @@ import EventCenterList from "./EventCenterList";
 export default function EventCenterTabs() {
   return (
     <Tabs className="w-full" defaultValue="All">
-      <TabsList className="flex justify-center bg-black">
+      <TabsList className="flex justify-center bg-green-400">
         <TabsTrigger value="All">All</TabsTrigger>
         <TabsTrigger value="Owned">Owned</TabsTrigger>
         <TabsTrigger value="Booked">Booked</TabsTrigger>

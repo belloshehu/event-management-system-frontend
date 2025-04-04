@@ -21,9 +21,20 @@ class EntertainerServiceAPI {
     return data;
   }
 
-  static async getEntertainers({ publicRequest }: { publicRequest: AxiosInstance }) {
+  static async getEntertainers({
+    publicRequest,
+    filter,
+  }: {
+    publicRequest: AxiosInstance;
+    filter: { availability: "available" | "booked" | "all" };
+  }) {
     const { data } = await publicRequest.get<GetEntertainersResponseType>(
-      "/entertainers"
+      "/entertainers",
+      {
+        params: {
+          ...filter,
+        },
+      }
     );
     return data;
   }

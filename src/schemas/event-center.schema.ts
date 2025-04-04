@@ -9,7 +9,7 @@ export const eventCenterValidationSchema = z.object({
   capacity: z.coerce.number().min(20, "Capacity must be at least 20"),
   price: z.coerce.number().min(0, "Price must be a positive number"),
   description: z.string().min(20, "Description must be at least 20 characters long"),
-  images: z.array(z.string()).min(1, "At least one image is required"),
+  images: z.array(z.any()).min(1, "At least one image is required"),
   supported_events_types: z
     .array(z.string())
     .min(1, "At least one supported event type is required"),
