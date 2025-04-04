@@ -1,9 +1,15 @@
 "use client";
 
 import { anton } from "@/app/fonts";
+import EventCenterBookingList from "@/components/event-center/EventCenterBookingList";
 import EventItems from "@/components/event/event-items";
+import Title from "@/components/Title";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useGetEventCenter } from "@/hooks/service-hooks/event-center.hooks";
+import {
+  useGetEventCenter,
+  useGetEventCenterBookings,
+} from "@/hooks/service-hooks/event-center.hooks";
 import { cn } from "@/lib/utils";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
@@ -15,6 +21,7 @@ export default function EventCenterDetailPage() {
   const [activeImage, setActiveImage] = useState("");
   const { id } = useParams();
   const { data, isLoading } = useGetEventCenter(id as string);
+  const { isLoading: loadingBookings, data: bookings } = useGetEventCenterBookings();
 
   useEffect(() => {
     if (data) {
@@ -46,6 +53,7 @@ export default function EventCenterDetailPage() {
     city,
     state,
     country,
+    status,
   } = data.data;
   return (
     <div className="flex items-center justify-start min-h-screen flex-col gap-10 p-5 py-10 md:py-20 md:px-10 bg-slate-50">
@@ -95,13 +103,26 @@ export default function EventCenterDetailPage() {
               {address}, {city}, {state}, {country}
             </p>
           </div>
-          <Link href={`/booking/event-center/${_id}`}>
-            <Button className="w-full mt-2 bg-green-500 font-semibold">
-              Proceed to booking
-            </Button>
-          </Link>
+          {status === "available" ? (
+            <Link href={`/booking/event-center/${_id}`}>
+              <Button className="w-full mt-2 bg-green-500 font-semibold">
+                Proceed to booking
+              </Button>
+            </Link>
+          ) : (
+            <Badge className="flex justify-center">{status}</Badge>
+          )}
         </div>
       </div>
+
+      {/* Bookings */}
+      <section className="w-full mt-5">
+        <Title title="Bookings" className="mb-5 bg-green-100 p-2" />
+        <EventCenterBookingList
+          loadingState={loadingBookings}
+          bookings={bookings?.data!}
+        />
+      </section>
     </div>
   );
 }

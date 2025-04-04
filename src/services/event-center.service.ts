@@ -71,9 +71,43 @@ class EventCenterServiceAPI {
   }
 
   // get all event center bookings
-  static async getEventCenterBookings(protectedRequest: AxiosInstance) {
+  static async getEventCenterBookings({
+    protectedRequest,
+  }: {
+    protectedRequest: AxiosInstance;
+  }) {
     const { data } = await protectedRequest.get<EventCenterBookingListResponseType>(
-      "/event-center-bookings"
+      `/event-center-bookings`
+    );
+    return data;
+  }
+
+  // get all event center bookings
+  static async getEventCenterBookingsByEventCenter({
+    protectedRequest,
+    eventCenterId,
+  }: {
+    protectedRequest: AxiosInstance;
+    eventCenterId: string;
+  }) {
+    const { data } = await protectedRequest.get<EventCenterBookingListResponseType>(
+      `/event-center-bookings/${eventCenterId}`
+    );
+    return data;
+  }
+
+  // get single event booking
+  static async getEventCenterBooking({
+    protectedRequest,
+    bookingId,
+    eventCenterId,
+  }: {
+    protectedRequest: AxiosInstance;
+    bookingId: string;
+    eventCenterId: string;
+  }) {
+    const { data } = await protectedRequest.get<EventCenterBookingSingleResponseType>(
+      `/event-center-bookings/${eventCenterId}/${bookingId}`
     );
     return data;
   }

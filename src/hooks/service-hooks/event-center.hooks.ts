@@ -62,6 +62,41 @@ export const useGetEventCenterBookings = () => {
   return useQuery({
     queryKey: ["event-center-bookings"],
     queryFn: async () =>
-      await EventCenterServiceAPI.getEventCenterBookings(protectedRequest),
+      await EventCenterServiceAPI.getEventCenterBookings({
+        protectedRequest,
+      }),
+  });
+};
+
+// get all event center bookings
+export const useGetEventCenterBookingsByEventCenter = (eventCenterId: string) => {
+  const { protectedRequest } = useAxios();
+  return useQuery({
+    queryKey: ["event-center-bookings"],
+    queryFn: async () =>
+      await EventCenterServiceAPI.getEventCenterBookingsByEventCenter({
+        protectedRequest,
+        eventCenterId,
+      }),
+  });
+};
+
+// get single event center by Id
+export const useGetEventCenterBookingById = ({
+  bookingId,
+  eventCenterId,
+}: {
+  bookingId: string;
+  eventCenterId: string;
+}) => {
+  const { protectedRequest } = useAxios();
+  return useQuery({
+    queryKey: ["event-center-booking", bookingId, eventCenterId],
+    queryFn: async () =>
+      await EventCenterServiceAPI.getEventCenterBooking({
+        protectedRequest,
+        bookingId,
+        eventCenterId,
+      }),
   });
 };

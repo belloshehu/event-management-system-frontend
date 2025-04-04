@@ -14,7 +14,6 @@ class AuthServiceAPI {
     payload: { password: string; email: string };
   }) => {
     const { data } = await publicRequest.post<LoginResponseType>("/auth/login", payload);
-    console.log(data, "login data");
     return data;
   };
 

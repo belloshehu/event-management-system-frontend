@@ -3,6 +3,7 @@ import Image from "next/image";
 import EventItems from "../event/event-items";
 import { EventType } from "@/types/event.types";
 import { formatDate } from "@/lib/timedate";
+import Link from "next/link";
 
 type EventProps = EventType;
 
@@ -15,6 +16,7 @@ export default function EventCenter({
   eventCenter,
   eventType,
   images,
+  _id,
 }: EventProps) {
   return (
     <div className="flex flex-col gap-3 p-3 rounded-md border-[0px] w-full bg-white shadow-sm hover:shadow-md hover:scale-95 transition-all duration-300">

@@ -51,7 +51,7 @@ export interface EventCenterBookingType extends BaseEventCenterBookingType {
   event_center: EventCenterType;
   user?: UserType;
   event: EventType;
-  entertainers?: EntertainerType;
+  entertainers?: EntertainerType[];
 }
 
 export interface EventCenterBookingPayloadType extends BaseEventCenterBookingType {

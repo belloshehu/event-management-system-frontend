@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 import Title from "@/components/Title";
 import CustomAvatar from "@/components/CustomAvatar";
 import EventCenterBookingList from "@/components/event-center/EventCenterBookingList";
+import { useGetEventCenterBookings } from "@/hooks/service-hooks/event-center.hooks";
 
 export default function AdminDashboardPage() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { session } = useSession();
   const router = useRouter();
+  const { isLoading, data } = useGetEventCenterBookings();
 
   if (!session) router.push("/login");
   const {
@@ -38,7 +40,7 @@ export default function AdminDashboardPage() {
       <section className="w-full flex flex-col gap-2">
         <Title title="Bookings" />
         <div className="w-full shadow-sm p-2 md:p-5 bg-white rounded-md">
-          <EventCenterBookingList />
+          <EventCenterBookingList loadingState={isLoading} bookings={data?.data!} />
         </div>
       </section>
     </div>

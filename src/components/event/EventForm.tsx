@@ -61,7 +61,7 @@ export default function EventForm({
   const [withEntertainers, setWithEntertainers] = useState(false);
   const router = useRouter();
   const { getLoadingText } = useLoading();
-  const { uploadToCloudinary, deleteFromCloudinary } = useFileUpload();
+  const { uploadToCloudinary } = useFileUpload();
   const se = supportedEvtentsTypes.map((item) => ({ label: item, value: item }));
 
   const {
