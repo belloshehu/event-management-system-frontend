@@ -1,19 +1,26 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-	/* config options here */
-	ignoreDuringBuilds: true,
-	images: {
-		remotePatterns: [
-			{
-				protocol: "https",
-				hostname: "res.cloudinary.com",
-				port: "",
-				pathname: "/sightek/**",
-				search: "",
-			},
-		],
-	},
+  /* config options here */
+  ignoreDuringBuilds: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/sightek/**",
+        search: "",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "/dzzxgsrbl/**",
+        search: "",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

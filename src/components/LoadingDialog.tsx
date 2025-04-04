@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 
 import { cn } from "@/lib/utils";
 import { Loader } from "lucide-react";
@@ -7,18 +7,22 @@ export function LoadingDialog({
   open,
   children,
   loadingText = "Loading...",
+  className,
 }: {
   open: boolean;
   children?: React.ReactNode;
   loadingText?: string;
+  className?: string;
 }) {
   return (
     <Dialog open={open} modal={true}>
       <DialogContent className="flex flex-col items-center justify-center bg-white/0 border-none">
-        <Loader size={34} className="text-white animate-spin" />
-        <h3 className={cn("text-white font-medium text-center animate-pulse")}>
+        <DialogHeader className={cn("text-center text-white", className)}>
+          {" "}
           {loadingText}
-        </h3>
+        </DialogHeader>
+        <Loader size={34} className="text-white animate-spin" />
+        {/* <h3 className={cn("text-white font-medium text-center animate-pulse")}></h3> */}
         {children && children}
       </DialogContent>
     </Dialog>

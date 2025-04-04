@@ -24,6 +24,8 @@ import { FlutterwaveResponseType } from "@/types/payment.types";
 import { LoadingDialog } from "../LoadingDialog";
 import { useRouter } from "next/navigation";
 import { useLoading } from "@/hooks/use-loading";
+import useFileUpload from "@/hooks/use-file-upload";
+import { toast } from "sonner";
 
 /*
     This form is used to book an event center
@@ -59,6 +61,7 @@ export default function EventForm({
   const [withEntertainers, setWithEntertainers] = useState(false);
   const router = useRouter();
   const { getLoadingText } = useLoading();
+  const { uploadToCloudinary, deleteFromCloudinary } = useFileUpload();
   const se = supportedEvtentsTypes.map((item) => ({ label: item, value: item }));
 
   const {
@@ -110,69 +113,76 @@ export default function EventForm({
   });
 
   const onSubmit = async (data: IEventPayloadType) => {
-    // step 1: process payment first
-    // step 2: create event instance
+    // step 1: create event instance
+    // step 2: process payment first
     // step 3: finally create booking instance (if entertainers are selected, they will be booked
     //  in the backend before creating the event center booking instance)
 
-    handleFlutterPayment({
-      callback: async (payment) => {
-        closePaymentModal();
-        const paymentData = payment as FlutterwaveResponseType;
-        if (paymentData.status === "successful") {
-          // call the create event function here
-          const { data: eventData } = await mutateAsync({
-            protectedRequest,
-            payload: {
-              ...data,
-              // because the images are in the form of data object we need to
-              // extract the data url to match the database schema
+    // upload the images to cloudinary
+    const images = [];
+    for (let i = 0; i < data.images.length; i++) {
+      const image = data.images[i];
+      const { data_url } = image;
+      const { secure_url } = await uploadToCloudinary(data_url);
+      images.push(secure_url);
+    }
 
-              // eslint-disable @typescript-eslint/no-explicit-any
-              images: data.images.map(
-                (image: { file: any; data_url: string }) => image?.data_url!
-              ),
-            },
-          });
-          if (!eventData) {
-            console.log("Event creation failed");
-          }
-          if (eventData) {
-            console.log("Event created successfully", eventData);
-          }
-          // create booking instance here
-          bookEventCenter({
-            protectedRequest,
-            payload: {
-              event: eventData._id,
-              entertainers: data.entertainers,
-              booking_status: "successful",
-              payment_status: paymentData.status,
-              payment_reference: paymentData.tx_ref,
-              payment_date: paymentData.created_at!,
-              event_center: eventCenter._id,
-              payment_amount: paymentData.amount,
-              payment_currency: paymentData.currency,
-            },
-          })
-            .catch((err) => {
-              console.log(err);
-              // delete event if booking fails
-              deleteEvent({
+    if (images.length == 0) {
+      toast.error("Failed to upload images");
+      return;
+    }
+    const transformedData = {
+      ...data,
+      images,
+    };
+
+    // call the create event function here
+    mutateAsync({
+      protectedRequest,
+      payload: transformedData,
+    }).then(({ data: eventData }) => {
+      if (eventData) {
+        handleFlutterPayment({
+          callback: async (payment) => {
+            closePaymentModal();
+            const paymentData = payment as FlutterwaveResponseType;
+            if (paymentData.status === "successful") {
+              // create booking instance here
+              bookEventCenter({
                 protectedRequest,
-                id: eventData._id,
-              });
-            })
-            .then((res) => {
-              // navigate to the dashboard page
-              if (res) {
-                form.reset();
-                router.push("/dashboard/user");
-              }
-            });
-        }
-      },
-      onClose: closePaymentModal,
+                payload: {
+                  event: eventData._id,
+                  entertainers: data.entertainers,
+                  booking_status: "successful",
+                  payment_status: paymentData.status,
+                  payment_reference: paymentData.tx_ref,
+                  payment_date: paymentData.created_at!,
+                  event_center: eventCenter._id,
+                  payment_amount: paymentData.amount,
+                  payment_currency: paymentData.currency,
+                },
+              })
+                .catch((err) => {
+                  console.log(err);
+                  // delete event if booking fails
+                  deleteEvent({
+                    protectedRequest,
+                    id: eventData._id,
+                  });
+                })
+                .then((res) => {
+                  // navigate to the dashboard page after successful booking
+                  if (res) {
+                    form.reset();
+                    router.push("/dashboard/user");
+                  }
+                });
+            }
+          },
+          onClose: closePaymentModal,
+        });
+      }
+      // close the payment modal
     });
   };
 
@@ -187,8 +197,6 @@ export default function EventForm({
   if (val) {
     setSelectedEntertainers(val);
   }
-
-  console.log(errors);
 
   return (
     <Form {...form}>
