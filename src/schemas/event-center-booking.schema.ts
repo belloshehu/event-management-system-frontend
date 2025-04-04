@@ -2,15 +2,16 @@ import { z } from "zod";
 
 export const eventCenterBookingSchema = z.object({
   event_center: z.string(),
-  event: z.string(),
+  event: z.string({ message: "Event Id is required" }),
   payment_reference: z
     .string()
-    .min(16, "Payment reference should be atleast 16 characters")
+    .min(8, "Payment reference should be atleast 8 characters")
     .max(255, "Payment reference should not exceed 255 characters"),
-  payment_date: z.string(),
-  payment_amount: z.number(),
-  payment_currency: z.enum(["NGN", "USD"]),
-  payment_method: z.enum(["card", "bank", "cash"]),
+  payment_date: z.coerce.date({ message: "Payment date is required" }),
+  payment_amount: z.number({ message: "Payment amount is required" }),
+  payment_currency: z.enum(["NGN", "USD"]).optional(),
+  payment_status: z.enum(["pending", "successful", "failed"]),
+  payment_method: z.enum(["card", "bank", "cash", "ussd"]).optional(),
   payment_description: z.string().optional(),
   entertainers: z.array(z.string()).optional(),
 });

@@ -1,8 +1,12 @@
 "use client";
 import Hero from "@/components/landing/Hero";
 import Section from "@/components/landing/Section";
+import useSession from "@/lib/session/use-session";
 
 export default function Home() {
+  const {
+    session: { user },
+  } = useSession();
   return (
     <main className="relative flex flex-col items-center justify-start py-2 gap-20 w-full p-5 md:p-20 text-center">
       <Hero />

@@ -1,33 +1,26 @@
 import React from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
 import { Control } from "react-hook-form";
+import { ImagesUploader } from "../ImagesUploader";
 
-interface FormInputProps {
-  id: string;
+interface FormImagesUploaderProps {
   label?: string;
   description?: string;
-  placeholder: string;
-  accept?: string;
-  errorMessage: string | undefined;
-  disabled?: boolean;
-  type: Exclude<React.HTMLInputTypeAttribute, "password">;
   className?: string;
-  value?: string;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  // eslint-disable @typescript-eslint/no-explicit-any
   control: Control<any>;
-  step?: number;
   name: string;
+  maxNumber: number;
+  maxImageSize: number;
+  multiple?: boolean;
 }
 
-export default function FormInputField({
-  placeholder,
+export default function FormImagesUploader({
   control,
   label,
   name,
-  type,
   ...props
-}: FormInputProps) {
+}: FormImagesUploaderProps) {
   return (
     <FormField
       control={control}
@@ -36,7 +29,13 @@ export default function FormInputField({
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            <Input placeholder={placeholder} type={type} {...field} {...props} />
+            <ImagesUploader
+              images={field.value}
+              setImages={field.onChange}
+              withUpdate={true}
+              withRemove={true}
+              {...props}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

@@ -7,6 +7,7 @@ import { Switch } from "../ui/switch";
 interface FormSwitchProps {
   className?: string;
   register?: any;
+  //@ts-ignore
   control: Control<any>;
   description: string;
   label: string;
@@ -22,7 +23,6 @@ export default function FormSwitch({
   label,
   onChange,
   value,
-  ...props
 }: FormSwitchProps) {
   return (
     <FormField

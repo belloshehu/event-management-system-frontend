@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { EventCenterType } from "@/types/event-center.types";
 import Link from "next/link";
 import EventItems from "../event/event-items";
+import { Badge } from "../ui/badge";
 
 type EventCenterProps = EventCenterType;
 
@@ -17,6 +18,7 @@ export default function EventCenter({
   state,
   supported_events_types,
   _id,
+  status,
 }: EventCenterProps) {
   return (
     <div className="flex flex-col gap-3 p-3 rounded-md border-[0px] w-full bg-white shadow-sm hover:shadow-md hover:scale-95 transition-all duration-300">
@@ -47,9 +49,13 @@ export default function EventCenter({
           </p>
         </div>
       </div>
-      <Link href={`/event-centers/${_id}`}>
-        <Button className="w-full mt-2 bg-green-500">Book</Button>
-      </Link>
+      {status === "active" || status == "available" ? (
+        <Link href={`/event-centers/${_id}`}>
+          <Button className="w-full mt-2 bg-green-500">Book</Button>
+        </Link>
+      ) : (
+        <Badge className="flex justify-center">{status}</Badge>
+      )}
     </div>
   );
 }

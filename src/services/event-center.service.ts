@@ -1,4 +1,3 @@
-import { EventCenterBookingPayloadType } from "@/schemas/event-center-booking.schema";
 import { EventCenterValidationSchemaType } from "@/schemas/event-center.schema";
 import {
   AddEventCenterResponseType,
@@ -6,6 +5,7 @@ import {
   EventCenterBookingSingleResponseType,
   GetEventCenterResponseType,
   GetEventCentersResponseType,
+  EventCenterBookingPayloadType,
 } from "@/types/event-center.types";
 import { AxiosInstance } from "axios";
 

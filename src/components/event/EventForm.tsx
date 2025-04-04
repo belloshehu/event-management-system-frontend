@@ -5,20 +5,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAxios } from "@/hooks/use-axios";
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-
-import MultipleSelect from "../MultipleSelect";
-
 import FormInputField from "../form-fields/FormInput";
-import { useCreateEvent } from "@/hooks/service-hooks/event.hook";
+import { useCreateEvent, useDeleteEvent } from "@/hooks/service-hooks/event.hook";
 import { eventValidationSchema, IEventPayloadType } from "@/schemas/event.schema";
 import FormTextarea from "../form-fields/FormTextarea";
 import FormSelect from "../form-fields/FormSelect";
 import FormSwitch from "../form-fields/FormSwitch";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useGetEntertainers } from "@/hooks/service-hooks/entertainer.hooks";
-import { Label } from "../ui/label";
 import { EntertainerType } from "@/types/entertainer.types";
+import FormImagesUploader from "../form-fields/FormImagesUploader";
 import FormMultiSelect from "../form-fields/FormMultiSelect";
+import useSession from "@/lib/session/use-session";
+import usePayment from "@/hooks/use-payment";
+import { makeFlutterwareConfig } from "@/config/flutterwave.config";
+import { useBookEventCenter } from "@/hooks/service-hooks/event-center.hooks";
+import { FlutterwaveResponseType } from "@/types/payment.types";
+import { LoadingDialog } from "../LoadingDialog";
+import { useRouter } from "next/navigation";
+import { useLoading } from "@/hooks/use-loading";
 
 /*
     This form is used to book an event center
@@ -34,29 +39,61 @@ interface EventFormProps {
   className?: string;
   setSelectedEntertainers: (entertainers: string[]) => void;
   supportedEvtentsTypes: string[];
-  eventCenterId: string;
+  eventCenter: { _id: string };
+  totalCost: number; // total cost of the event center and entertainers
 }
 
 export default function EventForm({
   className,
   setSelectedEntertainers,
   supportedEvtentsTypes,
-  eventCenterId,
+  eventCenter,
+  totalCost,
 }: EventFormProps) {
-  const { mutate, isPending } = useCreateEvent();
+  const { mutateAsync, isPending: isCreatingEvent } = useCreateEvent();
+  const { mutate: deleteEvent, isPending: isDeletingEvent } = useDeleteEvent();
+  const { mutateAsync: bookEventCenter, isPending: isBookingEventCenter } =
+    useBookEventCenter();
   const { data, isLoading } = useGetEntertainers();
   const { protectedRequest } = useAxios();
   const [withEntertainers, setWithEntertainers] = useState(false);
+  const router = useRouter();
+  const { getLoadingText } = useLoading();
   const se = supportedEvtentsTypes.map((item) => ({ label: item, value: item }));
+
+  const {
+    session: {
+      user: { email, firstName, lastName },
+    },
+  } = useSession();
+  const { useCustomFlutterwave } = usePayment();
+
+  const { handleFlutterPayment, closePaymentModal } = useCustomFlutterwave(
+    makeFlutterwareConfig({
+      amount: totalCost, // sum of the event center price plus entertainers
+      currency: "NGN",
+      customer: {
+        email: email,
+        name: `${firstName} ${lastName}`,
+        phone_number: "08012345678",
+      },
+      customizations: {
+        title: "Booking payment",
+        description: "Payment for event booking",
+      },
+    })
+  );
 
   const getEntetainerOptions = useCallback(
     (entertainers: EntertainerType[]) => {
-      return entertainers.map(({ _id, name }) => {
-        return {
-          value: _id,
-          label: name,
-        };
-      });
+      return entertainers
+        .filter((entertainer) => entertainer.availability === "available")
+        .map(({ _id, name }) => {
+          return {
+            value: _id,
+            label: name,
+          };
+        });
     },
     [data]
   );
@@ -68,36 +105,102 @@ export default function EventForm({
   const form = useForm({
     resolver: zodResolver(eventValidationSchema),
     defaultValues: {
-      eventCenter: eventCenterId,
-      images: ["image1", "image2"],
+      eventCenter: eventCenter._id,
     },
   });
 
   const onSubmit = async (data: IEventPayloadType) => {
-    console.log(data.eventCenter);
-    // mutate({
-    //   protectedRequest,
-    //   payload: { ...data, images: ["images12"] },
-    // });
+    // step 1: process payment first
+    // step 2: create event instance
+    // step 3: finally create booking instance (if entertainers are selected, they will be booked
+    //  in the backend before creating the event center booking instance)
+
+    handleFlutterPayment({
+      callback: async (payment) => {
+        closePaymentModal();
+        const paymentData = payment as FlutterwaveResponseType;
+        if (paymentData.status === "successful") {
+          // call the create event function here
+          const { data: eventData } = await mutateAsync({
+            protectedRequest,
+            payload: {
+              ...data,
+              // because the images are in the form of data object we need to
+              // extract the data url to match the database schema
+
+              // eslint-disable @typescript-eslint/no-explicit-any
+              images: data.images.map(
+                (image: { file: any; data_url: string }) => image?.data_url!
+              ),
+            },
+          });
+          if (!eventData) {
+            console.log("Event creation failed");
+          }
+          if (eventData) {
+            console.log("Event created successfully", eventData);
+          }
+          // create booking instance here
+          bookEventCenter({
+            protectedRequest,
+            payload: {
+              event: eventData._id,
+              entertainers: data.entertainers,
+              booking_status: "successful",
+              payment_status: paymentData.status,
+              payment_reference: paymentData.tx_ref,
+              payment_date: paymentData.created_at!,
+              event_center: eventCenter._id,
+              payment_amount: paymentData.amount,
+              payment_currency: paymentData.currency,
+            },
+          })
+            .catch((err) => {
+              console.log(err);
+              // delete event if booking fails
+              deleteEvent({
+                protectedRequest,
+                id: eventData._id,
+              });
+            })
+            .then((res) => {
+              // navigate to the dashboard page
+              if (res) {
+                form.reset();
+                router.push("/dashboard/user");
+              }
+            });
+        }
+      },
+      onClose: closePaymentModal,
+    });
   };
 
   const {
     handleSubmit,
     control,
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting },
     watch,
   } = form;
-
   const val = watch("entertainers");
   if (val) {
     setSelectedEntertainers(val);
   }
 
-  console.log(isValid);
+  console.log(errors);
 
   return (
     <Form {...form}>
+      {/* Display loader with messages for creating event and booking */}
+      <LoadingDialog
+        loadingText={getLoadingText([
+          { message: "Creating event ...", state: isCreatingEvent },
+          { message: "Booking event center...", state: isBookingEventCenter },
+          { message: "Deleting event ...", state: isDeletingEvent },
+        ])}
+        open={isBookingEventCenter || isCreatingEvent || isDeletingEvent}
+      />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={cn(
@@ -124,9 +227,8 @@ export default function EventForm({
 
         <FormTextarea
           control={control}
-          register={register("description")}
           label="Description"
-          type="text"
+          name="description"
           id="description"
           placeholder="Enter event description"
           errorMessage={errors.description?.message}
@@ -178,15 +280,15 @@ export default function EventForm({
           />
         </div>
 
-        {/* <FormInputField
+        <FormImagesUploader
           control={control}
-          label="Images"
-          type="file"
           name="images"
-          id="images"
-          placeholder="Upload event images"
-          errorMessage={errors.images?.message}
-        /> */}
+          label="Event Images"
+          maxImageSize={1000000}
+          maxNumber={5}
+          multiple={true}
+        />
+
         <FormSwitch
           control={control}
           onChange={toggleEntertainers}

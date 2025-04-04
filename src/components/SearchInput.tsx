@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type SearchInputProps = {
   // Props type definition
@@ -10,10 +11,12 @@ type SearchInputProps = {
 };
 
 export default function SearchInput({ placeholder, className }: SearchInputProps) {
+  const isMobile = useIsMobile();
   return (
     <div
       className={cn(
         "flex items-center justify-center rounded-full border border-green-600 hover:shadow-xl hover:shadow-slate-400 hover:drop-shadow-2xl",
+        { "w-full": isMobile },
         className
       )}
     >

@@ -1,34 +1,27 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAxios } from "@/hooks/use-axios";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Textarea } from "../ui/textarea";
+
 import {
-  availabilityOptions,
-  currencyOptions,
   entertainmentOptions,
   supportedEvents,
   supportedLanguagesOptions,
 } from "@/constants/form.data";
-import MultipleSelect from "../MultipleSelect";
 import {
   entertainerValidationSchema,
   EntertainerValidationSchemaType,
 } from "@/schemas/entertainer.schema";
 import FormSelect from "../form-fields/FormSelect";
 import { useCreateEntertainer } from "@/hooks/service-hooks/entertainer.hooks";
+import FormInputField from "../form-fields/FormInput";
+import FormTextarea from "../form-fields/FormTextarea";
+import FormMultiSelect from "../form-fields/FormMultiSelect";
+import FormImagesUploader from "../form-fields/FormImagesUploader";
 
 export default function EntertainerForm({ onClose }: { onClose: () => void }) {
   const { mutateAsync, isPending } = useCreateEntertainer();
@@ -51,266 +44,168 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
       onClose();
     });
   };
-  const { handleSubmit, control } = form;
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: { errors },
+  } = form;
   return (
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="rounded-md space-y-8 py-5 p-5 md:p-10 border-[1px] max-h-[80vh] overflow-y-auto w-full"
       >
-        <FormField
+        <FormInputField
           control={control}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Name of entertainer" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Name"
+          type="text"
+          id="name"
+          placeholder="Name of entertainer"
+          errorMessage={errors.name?.message}
         />
-        <FormField
+
+        <FormInputField
           control={control}
           name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter address" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Address"
+          type="text"
+          id="address"
+          placeholder="Enter address"
+          errorMessage={errors.address?.message}
         />
-        <FormField
+
+        <FormInputField
           control={control}
           name="country"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Country</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter country" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Country"
+          type="text"
+          id="country"
+          placeholder="Enter country"
+          errorMessage={errors.country?.message}
         />
-        <FormField
+
+        <FormInputField
           control={control}
           name="state"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>State</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter state" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="State"
+          type="text"
+          id="state"
+          placeholder="Enter state"
+          errorMessage={errors.state?.message}
         />
-        <FormField
+        <FormInputField
           control={control}
           name="city"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>City</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter City" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="type"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Entertainment type</FormLabel>
-              <FormControl>
-                <FormSelect
-                  options={entertainmentOptions}
-                  {...field}
-                  placeholder="Entertainment"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="City"
+          type="text"
+          id="city"
+          placeholder="Enter city"
+          errorMessage={errors.city?.message}
         />
 
-        <FormField
+        <FormSelect
+          options={entertainmentOptions}
+          placeholder="Select entertainer type"
+          register={register("type")}
           control={control}
+        />
+
+        <FormTextarea
+          control={control}
+          label="Description"
           name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Description of event center" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          id="description"
+          placeholder="Description of entertainer"
+          errorMessage={errors.description?.message}
         />
 
-        <FormField
+        <FormInputField
           control={control}
           name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price</FormLabel>
-              <FormControl>
-                <Input placeholder="Price of rent" {...field} type="number" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Price"
+          type="number"
+          id="price"
+          placeholder="Price of entertainer"
+          errorMessage={errors.price?.message}
         />
 
-        <FormField
+        <FormInputField
           control={control}
           name="currency"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Currency</FormLabel>
-              <FormControl>
-                <FormSelect options={currencyOptions} placeholder="Currency" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Currency"
+          type="text"
+          id="currency"
+          placeholder="Enter currency"
+          errorMessage={errors.currency?.message}
         />
 
-        <FormField
+        <FormMultiSelect
+          label="Matching events"
+          name="supported_events_types"
           control={control}
-          name="available_for"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Available for</FormLabel>
-              <FormControl>
-                <MultipleSelect
-                  data={supportedEvents}
-                  placeholder="Select supported event"
-                  {...field}
-                  onChange={(value) => {
-                    field.onChange(value);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          options={supportedEvents}
+          placeholder={"Select events"}
+          emptyMessage="No events found"
         />
 
-        <FormField
+        <FormSelect
+          options={entertainmentOptions}
+          placeholder="Select status"
+          register={register("availability")}
           control={control}
-          name="availability"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Availability Status</FormLabel>
-              <FormControl>
-                <FormSelect
-                  placeholder="Select status"
-                  {...field}
-                  options={availabilityOptions}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
         />
 
         {/* contact */}
-        <FormField
+        <FormInputField
           control={control}
           name="contact_number"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone number</FormLabel>
-              <FormControl>
-                <Input placeholder="Phone number" {...field} type="tel" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Phone number"
+          type="tel"
+          id="contact_number"
+          placeholder="Phone number"
+          errorMessage={errors.contact_number?.message}
         />
-        <FormField
+
+        <FormInputField
           control={control}
           name="contact_email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Contact email" {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Email"
+          type="email"
+          id="contact_email"
+          placeholder="Contact email"
+          errorMessage={errors.contact_email?.message}
         />
 
-        <FormField
+        <FormInputField
           control={control}
           name="performance_duration"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Average Duration</FormLabel>
-              <FormControl>
-                <Input placeholder="Performance duration" {...field} type="number" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Performance duration"
+          type="number"
+          id="performance_duration"
+          placeholder="Duration in minutes"
+          errorMessage={errors.performance_duration?.message}
         />
 
-        <FormField
-          control={control}
+        <FormMultiSelect
+          label="Performance languages"
           name="performance_languages"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Supported Languages</FormLabel>
-              <FormControl>
-                <MultipleSelect
-                  data={supportedLanguagesOptions}
-                  placeholder="Select supported languages"
-                  {...field}
-                  onChange={(value) => {
-                    field.onChange(value);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          control={control}
+          options={supportedLanguagesOptions}
+          placeholder={"Select languages"}
+          emptyMessage="No languages found"
         />
 
         {/* images */}
-
-        {/* <FormField
+        <FormImagesUploader
           control={control}
           name="images"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Upload image</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Upload event center image"
-                  {...field}
-                  type="file"
-                  onChange={(e) => {
-                    form.setValue("images", [
-                      ...(form.getValues("images") || []),
-                      e.target.value,
-                    ]);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-
+          label="Entertainer Images"
+          maxImageSize={1000000}
+          maxNumber={5}
+          multiple={true}
+        />
         <Button
           disabled={isPending}
           className={cn("btn btn-primary", { "animate-pulse": isPending })}

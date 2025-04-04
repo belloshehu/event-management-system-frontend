@@ -17,7 +17,7 @@ class EventServiceAPI {
     return data;
   }
 
-  public static async createEvent({
+  static async createEvent({
     protectedRequest,
     payload,
   }: {
@@ -28,6 +28,18 @@ class EventServiceAPI {
       "/events",
       payload
     );
+    return data;
+  }
+
+  // delete event
+  static async deleteEvent({
+    protectedRequest,
+    id,
+  }: {
+    protectedRequest: AxiosInstance;
+    id: string;
+  }) {
+    const { data } = await protectedRequest.delete<AddEventResponseType>(`/events/${id}`);
     return data;
   }
 }

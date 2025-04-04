@@ -23,7 +23,7 @@ export default function EventCenter({
         alt={name}
         width={400}
         height={200}
-        className="object-cover rounded-md w-full"
+        className="object-cover h-[300px] rounded-md w-full"
       />
 
       <h1 className="font-medium text-xl text-green-700">{name}</h1>

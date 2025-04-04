@@ -7,6 +7,7 @@ export interface UserType {
   varified: boolean;
   role: UserRole;
   _id?: string;
+  image?: string;
 }
 
 export interface UserAuthType {

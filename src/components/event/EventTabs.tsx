@@ -5,7 +5,7 @@ import EventList from "./EventList";
 export default function EventTabs() {
   return (
     <Tabs className="w-full" defaultValue="All">
-      <TabsList className="flex justify-center bg-black">
+      <TabsList className="flex justify-center bg-green-300">
         <TabsTrigger value="All">All</TabsTrigger>
         <TabsTrigger value="Upcoming">Upcoming</TabsTrigger>
         <TabsTrigger value="Past">Past</TabsTrigger>

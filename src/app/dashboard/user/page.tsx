@@ -23,6 +23,7 @@ export default function UserDashboardPage() {
         User Dashboard ({firstName} {lastName})
       </h1>
       {isMobile && <SearchInput placeholder="Search for events" />}
+
       <EventList />
     </div>
   );

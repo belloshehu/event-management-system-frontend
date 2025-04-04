@@ -45,7 +45,9 @@ export default function Entertainer({ data, simple }: EntertainerProps) {
           className="object-cover rounded-md"
         />
         <div>
-          <h3>{name}</h3>
+          <Link href={`/entertainers/${_id}`}>
+            <h3>{name}</h3>
+          </Link>
           <h3 className="font-bold text-xl md:text-3xl">
             {price} <span className="text-sm font-normal">{currency}</span>
           </h3>

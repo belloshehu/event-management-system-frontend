@@ -16,6 +16,7 @@ interface SelectProps {
   emptyMessage?: string;
   options: SelectDataType[];
   className?: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   register?: any;
   control: Control<any>;
 }

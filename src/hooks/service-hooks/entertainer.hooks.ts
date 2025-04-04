@@ -74,3 +74,50 @@ export const useDeleteEntertainer = () => {
     },
   });
 };
+
+// hook for booking an entertainer
+// export const useBookEntertainer = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: EntertainerServiceAPI.bookEntertainer,
+//     onSuccess: () => {
+//       toast.success("Entertainer booked successfully");
+//       queryClient.invalidateQueries({ queryKey: ["entertainers"] });
+//     },
+//     onError: (error) => {
+//       const err = error as AxiosError<{ message: string }>;
+//       toast.error(err.response?.data?.message || "Failed to book entertainer");
+//       console.log(error);
+//     },
+//   });
+// };
+
+// // hook for unbooking an entertainer
+// export const useUnbookEntertainer = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: EntertainerServiceAPI.unbookEntertainer,
+//     onSuccess: () => {
+//       toast.success("Entertainer unbooked successfully");
+//       queryClient.invalidateQueries({ queryKey: ["entertainers"] });
+//     },
+//     onError: (error) => {
+//       const err = error as AxiosError<{ message: string }>;
+//       toast.error(err.response?.data?.message || "Failed to unbook entertainer");
+//       console.log(error);
+//     },
+//   });
+// };
+
+// // hook for getting entertainer bookings
+// export const useGetEntertainerBookings = (entertainerId: string) => {
+//   const { publicRequest } = useAxios();
+//   return useQuery({
+//     queryFn: async () =>
+//       await EntertainerServiceAPI.getEntertainerBookings({
+//         publicRequest,
+//         entertainerId,
+//       }),
+//     queryKey: ["entertainer", "bookings", entertainerId],
+//   });
+// };

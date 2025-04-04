@@ -15,8 +15,8 @@ export const useLogin = () => {
       login(data.data);
       toast(data.message || "Logged in successfully");
       if (data.data.user.role === "admin") router.push("/dashboard/admin");
-      else if (data.data.user.role === "user") router.push("/dashboard/user");
-      throw new Error("Invalid user type");
+      else if (data.data.user.role === "partner") router.push("/dashboard/partner");
+      else router.push("/dashboard/user");
     },
     onError: (error) => {
       const err = error as AxiosError<{ message: string; status: string }>;

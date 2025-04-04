@@ -15,7 +15,7 @@ export const eventValidationSchema = z
     startTime: z.string().time(),
     endTime: z.string().time(),
     cost: z.number().optional(),
-    images: z.array(z.string()).min(1, "At least one image is required"),
+    images: z.array(z.any()).min(1, "At least one image is required"),
     eventType: z.enum(supportedEvents as [string]),
     entertainers: z.array(z.string()).optional(),
   })
