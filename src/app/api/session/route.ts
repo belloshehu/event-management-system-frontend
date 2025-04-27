@@ -1,7 +1,7 @@
 // handlers for mutating and querying session data
 
 import { defaultSession, SessionData, sessionOptions } from "@/lib/session/session.lib";
-import { RefreshTokenType, UserAuthType } from "@/types/user.types";
+import { RefreshTokenType } from "@/types/user.types";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 
@@ -9,11 +9,7 @@ import { cookies } from "next/headers";
 // login user
 export async function POST(request: Request) {
   try {
-    const userData = (await request.json()) as UserAuthType & {
-      token: string;
-      refreshToken: string;
-      expiresIn: number;
-    };
+    const userData = await request.json();
 
     const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
 

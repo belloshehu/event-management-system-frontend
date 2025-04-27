@@ -11,8 +11,8 @@ export const useLogin = () => {
   const router = useRouter();
   return useMutation({
     mutationFn: AuthServiceAPI.loginUser,
-    onSuccess: (data) => {
-      login(data.data);
+    onSuccess: async (data) => {
+      await login(data.data);
       toast(data.message || "Logged in successfully");
       if (data.data.user.role === "admin") router.push("/dashboard/admin");
       else if (data.data.user.role === "partner") router.push("/dashboard/partner");

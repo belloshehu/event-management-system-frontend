@@ -1,105 +1,3 @@
-// import { NavigationItemType } from "@/types/navigation.types";
-
-// export const navItems: NavigationItemType[] = [
-//   { path: "/events", name: "Events" },
-//   { path: "/entertainers", name: "Entertainers" },
-//   { path: "/partnership", name: "Partnership" },
-//   { path: "/event-centers", name: "Event centers" },
-// ];
-
-// export const adminNavItems: NavigationItemType[] = [
-//   {
-//     name: "Dashboard",
-//     path: "/dashboard/admin",
-//   },
-//   {
-//     name: "Events",
-//     path: "/dashboard/events/admin",
-//   },
-//   {
-//     name: "Entertainers",
-//     path: "/dashboard/entertainers/admin",
-//   },
-//   {
-//     name: "Event Centers",
-//     path: "/dashboard/event-centers/admin",
-//   },
-//   {
-//     name: "Users",
-//     path: "/dashboard/users/admin",
-//   },
-//   {
-//     name: "Partnership",
-//     path: "/dashboard/partnership/admin",
-//   },
-//   {
-//     name: "Settings",
-//     path: "/dashboard/settings/admin",
-//   },
-//   {
-//     name: "Messages",
-//     path: "/dashboard/messages/admin",
-//   },
-//   {
-//     name: "Notifications",
-//     path: "/dashboard/notifications/admin",
-//   },
-// ];
-
-// export const userNavItems: NavigationItemType[] = [
-//   {
-//     name: "Dashboard",
-//     path: "/dashboard/user",
-//   },
-//   {
-//     name: "Bookings",
-//     path: "/dashboard/bookings/user",
-//   },
-//   {
-//     name: "favorites",
-//     path: "/dashboard/favorites/user",
-//   },
-//   {
-//     name: "Settings",
-//     path: "/dashboard/settings/user",
-//   },
-//   {
-//     name: "Messages",
-//     path: "/dashboard/messages/user",
-//   },
-//   {
-//     name: "Notifications",
-//     path: "/dashboard/notifications/user",
-//   },
-// ];
-
-// export const partnerNavItems: NavigationItemType[] = [
-//   {
-//     name: "Dashboard",
-//     path: "dashboard/partner",
-//   },
-//   {
-//     name: "Services",
-//     path: "/dashboard/services/partner",
-//   },
-//   {
-//     name: "Bookings",
-//     path: "/dashboard/bookings/partner",
-//   },
-//   {
-//     name: "Settings",
-//     path: "/dashboard/settings/partner",
-//   },
-//   {
-//     name: "Messages",
-//     path: "/dashboard/messages/partner",
-//   },
-//   {
-//     name: "Notifications",
-//     path: "/dashboard/notifications/partner",
-//   },
-// ];
-
 import { NavigationItemType } from "@/types/navigation.types";
 
 export const navItems: NavigationItemType[] = [
@@ -107,40 +5,50 @@ export const navItems: NavigationItemType[] = [
   { path: "/entertainers", name: "Entertainers" },
   { path: "/partnership", name: "Partnership" },
   { path: "/event-centers", name: "Event centers" },
+  // { path: "/event-planner", name: "Event planner" },
+  { path: "/studio", name: "Studio" },
 ];
 
 export const adminNavItems: NavigationItemType[] = [
   {
     name: "Dashboard",
     path: "/dashboard/admin",
+    active: true,
   },
   {
     name: "Events",
     path: "/dashboard/admin/events",
+    active: true,
   },
   {
     name: "Entertainers",
     path: "/dashboard/admin/entertainers",
+    active: true,
   },
   {
     name: "Event Centers",
     path: "/dashboard/admin/event-centers",
+    active: true,
   },
   {
     name: "Users",
     path: "/dashboard/admin/users",
+    active: true,
   },
   {
     name: "Partnership",
     path: "/dashboard/admin/partnership",
+    active: true,
   },
   {
     name: "Settings",
     path: "/dashboard/admin/settings",
+    active: false,
   },
   {
     name: "Messages",
     path: "/dashboard/admin/messages",
+    active: false,
   },
   {
     name: "Notifications",
@@ -152,26 +60,32 @@ export const userNavItems: NavigationItemType[] = [
   {
     name: "Dashboard",
     path: "/dashboard/user",
+    active: true,
   },
   {
     name: "Bookings",
-    path: "/dashboard/bookings/user",
+    path: "/dashboard/user/bookings",
+    active: true,
   },
   {
     name: "favorites",
-    path: "/dashboard/favorites/user",
+    path: "/dashboard/user/favorites",
+    active: false,
   },
   {
     name: "Settings",
-    path: "/dashboard/settings/user",
+    path: "/dashboard/user/settings",
+    active: false,
   },
   {
     name: "Messages",
-    path: "/dashboard/messages/user",
+    path: "/dashboard/user/messages",
+    active: false,
   },
   {
     name: "Notifications",
-    path: "/dashboard/notifications/user",
+    path: "/dashboard/user/notifications",
+    active: true,
   },
 ];
 
@@ -179,25 +93,26 @@ export const partnerNavItems: NavigationItemType[] = [
   {
     name: "Dashboard",
     path: "dashboard/partner",
-  },
-  {
-    name: "Services",
-    path: "/dashboard/services/partner",
+    active: true,
   },
   {
     name: "Bookings",
-    path: "/dashboard/bookings/partner",
+    path: "/dashboard/partner/bookings",
+    active: true,
   },
   {
     name: "Settings",
-    path: "/dashboard/settings/partner",
+    path: "/dashboard/partner/settings",
+    active: false,
   },
   {
     name: "Messages",
-    path: "/dashboard/messages/partner",
+    path: "/dashboard/partner/messages",
+    active: false,
   },
   {
     name: "Notifications",
-    path: "/dashboard/notifications/partner",
+    path: "/dashboard/partner/notifications",
+    active: true,
   },
 ];

@@ -15,14 +15,14 @@ export default function SearchInput({ placeholder, className }: SearchInputProps
   return (
     <div
       className={cn(
-        "flex items-center justify-center rounded-full border border-green-600 hover:shadow-xl hover:shadow-slate-400 hover:drop-shadow-2xl",
+        "flex items-center justify-center rounded-full border border-green-100 hover:shadow-xl hover:shadow-slate-400 hover:drop-shadow-2xl bg-white",
         { "w-full": isMobile },
         className
       )}
     >
       <Input
         type="text"
-        className="outline-none border-none active:outline-none active:border-none rounded-full focus-visible:ring-[0px] focus-visible:ring-offset-[0px]"
+        className="outline-none border-none active:outline-none active:border-none rounded-full focus-visible:ring-[0px] bg-none focus-visible:ring-offset-[0px]"
         placeholder={placeholder || "Search"}
       />
       <Button

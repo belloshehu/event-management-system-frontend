@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAxios } from "../use-axios";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { IGetEventCenterBookingQueryType } from "@/schemas/event-center-booking.schema";
 
 export const useGetEventCenters = () => {
   const { publicRequest } = useAxios();
@@ -58,13 +59,18 @@ export const useBookEventCenter = () => {
 };
 
 // get all event center bookings
-export const useGetEventCenterBookings = () => {
+export const useGetEventCenterBookings = ({
+  filter,
+}: {
+  filter: IGetEventCenterBookingQueryType;
+}) => {
   const { protectedRequest } = useAxios();
   return useQuery({
     queryKey: ["event-center-bookings"],
     queryFn: async () =>
       await EventCenterServiceAPI.getEventCenterBookings({
         protectedRequest,
+        filter,
       }),
   });
 };

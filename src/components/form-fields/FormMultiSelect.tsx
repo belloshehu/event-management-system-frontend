@@ -30,7 +30,7 @@ export default function FormMultiSelect({
       name={name}
       render={({ field }) => (
         <FormItem className={cn("flex flex-col", className)}>
-          <FormLabel>{label}</FormLabel>
+          {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <MultipleSelect
               data={options}

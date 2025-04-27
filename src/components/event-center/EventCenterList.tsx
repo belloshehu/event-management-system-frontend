@@ -3,6 +3,7 @@ import { useGetEventCenters } from "@/hooks/service-hooks/event-center.hooks";
 import EventCenter from "./EventCenter";
 import NoEventCenterDataCard from "./NoEventCenterDataCard";
 import { NoDataOptions } from "@/types/data.types";
+import { EventCenterSkeletonList } from "../skeletons/event-center/EventCenterSkeleton";
 
 export default function EventCenterList({
   NoDataOptions,
@@ -11,7 +12,7 @@ export default function EventCenterList({
 }) {
   const { data, isLoading } = useGetEventCenters();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <EventCenterSkeletonList />;
   if (!data || data.data.length === 0)
     return <NoEventCenterDataCard className="mx-auto my-20" {...NoDataOptions} />;
   return (

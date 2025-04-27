@@ -10,7 +10,7 @@ interface FormImagesUploaderProps {
   // eslint-disable @typescript-eslint/no-explicit-any
   control: Control<any>;
   name: string;
-  maxNumber: number;
+  maxNumber?: number;
   maxImageSize: number;
   multiple?: boolean;
 }
@@ -19,6 +19,7 @@ export default function FormImagesUploader({
   control,
   label,
   name,
+  maxNumber = 1,
   ...props
 }: FormImagesUploaderProps) {
   return (
@@ -34,6 +35,7 @@ export default function FormImagesUploader({
               setImages={field.onChange}
               withUpdate={true}
               withRemove={true}
+              maxNumber={maxNumber}
               {...props}
             />
           </FormControl>

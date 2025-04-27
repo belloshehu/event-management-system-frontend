@@ -9,6 +9,7 @@ const publicRoutes = ["/login", "/signup"];
 
 export default async function middleware(req: NextRequest) {
   // 2. get session from cookies
+
   const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
   const isValidSession = session?.isLoggedIn && session?.expiresIn > Date.now();
 

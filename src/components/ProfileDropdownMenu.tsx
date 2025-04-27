@@ -26,22 +26,24 @@ export default function ProfileDropdownMenu() {
   const renderNavItems = useCreateNavbar(
     session.user.role,
     (navItems: NavigationItemType[]) => {
-      return navItems.map((item, index) => {
-        return (
-          <DropdownMenuItem key={index}>
-            {/* <NavButton
+      return navItems
+        .filter((item) => item.active)
+        .map((item, index) => {
+          return (
+            <DropdownMenuItem key={index}>
+              {/* <NavButton
               className="w-full text-left flex justify-start items-center"
               key={index}
               pathname={item.path}
               currentPathname={currentPathname}
             > */}
-            <Link className="text-left" href={item.path}>
-              {item.name}
-            </Link>
-            {/* </NavButton> */}
-          </DropdownMenuItem>
-        );
-      });
+              <Link className="text-left" href={item.path}>
+                {item.name}
+              </Link>
+              {/* </NavButton> */}
+            </DropdownMenuItem>
+          );
+        });
     }
   );
   return (

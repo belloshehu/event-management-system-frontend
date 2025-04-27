@@ -5,6 +5,7 @@ import {
   Righteous,
   Josefin_Slab,
   Jura,
+  Alfa_Slab_One,
 } from "next/font/google";
 
 // Configure font with subsets and weights
@@ -42,4 +43,10 @@ export const jura = Jura({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-jura",
+});
+
+export const alfa_Slab_One = Alfa_Slab_One({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400"],
+  variable: "--font-poppins",
 });

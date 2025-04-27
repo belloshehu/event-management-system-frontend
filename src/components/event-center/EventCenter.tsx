@@ -23,7 +23,7 @@ export default function EventCenter({
 }: EventCenterProps) {
   return (
     <Link href={`/event-centers/${_id}`}>
-      <div className="flex flex-col gap-3 p-3 rounded-md border-[0px] w-full bg-white shadow-sm hover:shadow-md hover:scale-95 transition-all duration-300">
+      <div className="h-full flex flex-col gap-3 p-3 rounded-md border-[0px] w-full bg-white shadow-sm hover:shadow-md hover:scale-95 transition-all duration-300">
         <Image
           src={images[0]}
           alt={name}

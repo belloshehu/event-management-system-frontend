@@ -83,7 +83,7 @@ export default function EventCenterBookingPage() {
 
   const { name, supported_events_types, price } = data.data;
   return (
-    <div className="flex items-center justify-start min-h-screen flex-col gap-10 p-5 py-10 md:py-20 md:px-20 bg-slate-50">
+    <>
       <h1 className="font-bold text-xl md:text-2xl text-black text-left self-start ">
         Booking {name}
       </h1>
@@ -143,6 +143,6 @@ export default function EventCenterBookingPage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

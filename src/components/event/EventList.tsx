@@ -4,6 +4,7 @@ import { useGetEvents } from "@/hooks/service-hooks/event.hook";
 import NoEventDataCard from "./NoEventDataCard";
 import { NoDataOptions } from "@/types/data.types";
 import { cn } from "@/lib/utils";
+import { EventSkeletonList } from "../skeletons/events/EventSkeleton";
 
 export default function EventList({
   NoDataOptions,
@@ -14,7 +15,7 @@ export default function EventList({
 }) {
   const { data, isLoading } = useGetEvents();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <EventSkeletonList />;
   if (!data || data.data.length === 0)
     return <NoEventDataCard {...NoDataOptions} className="mx-auto my-20" />;
   return (

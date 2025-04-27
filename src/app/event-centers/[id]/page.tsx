@@ -3,6 +3,8 @@
 import { anton } from "@/app/fonts";
 import EventCenterBookingList from "@/components/event-center/EventCenterBookingList";
 import EventItems from "@/components/event/event-items";
+import PageWrapper from "@/components/page/PageWrapper";
+import { EventCenterDetailSkeleton } from "@/components/skeletons/event-center/EventCenterDetailSkeleton";
 import Title from "@/components/Title";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,7 +23,9 @@ export default function EventCenterDetailPage() {
   const [activeImage, setActiveImage] = useState("");
   const { id } = useParams();
   const { data, isLoading } = useGetEventCenter(id as string);
-  const { isLoading: loadingBookings, data: bookings } = useGetEventCenterBookings();
+  const { isLoading: loadingBookings, data: bookings } = useGetEventCenterBookings({
+    filter: {},
+  });
 
   useEffect(() => {
     if (data) {
@@ -29,12 +33,7 @@ export default function EventCenterDetailPage() {
     }
   }, [data]);
 
-  if (isLoading)
-    return (
-      <div className="min-h-screen flex bg-slate-50 justify-center items-center">
-        <h1 className="text-2xl">Loading ...</h1>
-      </div>
-    );
+  if (isLoading) return <EventCenterDetailSkeleton />;
   if (!data)
     return (
       <div className="min-h-screen flex bg-slate-50 justify-center items-center">
@@ -56,7 +55,7 @@ export default function EventCenterDetailPage() {
     status,
   } = data.data;
   return (
-    <div className="flex items-center justify-start min-h-screen flex-col gap-10 p-5 py-10 md:py-20 md:px-10 bg-slate-50">
+    <PageWrapper>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
         <div className="flex flex-col items-start justify-start gap-5">
           <Image
@@ -123,6 +122,6 @@ export default function EventCenterDetailPage() {
           bookings={bookings?.data!}
         />
       </section>
-    </div>
+    </PageWrapper>
   );
 }

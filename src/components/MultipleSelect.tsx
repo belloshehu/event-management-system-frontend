@@ -62,7 +62,7 @@ export default function MultipleSelect({
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger
         onClick={(e) => e.stopPropagation()}
-        className="flex w-full justify-between items-center h-auto border-[1px] rounded-md p-2"
+        className="flex w-full justify-between items-center h-auto border-[1px] rounded-md py-1 p-2"
         role="combobox"
         aria-expanded={isOpen}
       >

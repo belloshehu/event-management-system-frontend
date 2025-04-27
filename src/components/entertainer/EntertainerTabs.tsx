@@ -16,7 +16,7 @@ export default function EntertainerTabs() {
 
   return (
     <Tabs className="w-full" defaultValue="All">
-      <TabsList className="flex justify-center bg-green-400">
+      <TabsList className="flex justify-center bg-green-50">
         <TabsTrigger value="All" onClick={() => setFilter({ availability: "all" })}>
           All
         </TabsTrigger>

@@ -1,3 +1,4 @@
+import { IGetEventCenterBookingQueryType } from "@/schemas/event-center-booking.schema";
 import { EventCenterValidationSchemaType } from "@/schemas/event-center.schema";
 import {
   AddEventCenterResponseType,
@@ -73,11 +74,18 @@ class EventCenterServiceAPI {
   // get all event center bookings
   static async getEventCenterBookings({
     protectedRequest,
+    filter,
   }: {
     protectedRequest: AxiosInstance;
+    filter: IGetEventCenterBookingQueryType;
   }) {
     const { data } = await protectedRequest.get<EventCenterBookingListResponseType>(
-      `/event-center-bookings`
+      `/event-center-bookings`,
+      {
+        params: {
+          ...filter,
+        },
+      }
     );
     return data;
   }

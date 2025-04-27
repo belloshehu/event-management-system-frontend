@@ -1,7 +1,8 @@
 import EventCenterBooking from "./EventCenterBooking";
 import { EventCenterBookingType } from "@/types/event-center.types";
 import { cn } from "@/lib/utils";
-import { LoadingDialog } from "../LoadingDialog";
+
+import { EventCenterBookingSkeletonList } from "../skeletons/event-center/BookingSkeleton";
 
 interface EventCenterBookingListProps {
   bookings: EventCenterBookingType[];
@@ -14,8 +15,7 @@ export default function EventCenterBookingList({
   className,
   loadingState,
 }: EventCenterBookingListProps) {
-  if (loadingState)
-    return <LoadingDialog loadingText="Loading bookings" open={loadingState} />;
+  if (loadingState) return <EventCenterBookingSkeletonList />;
 
   if (!bookings || bookings.length === 0)
     return (

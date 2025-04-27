@@ -54,7 +54,7 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="rounded-md space-y-8 py-5 p-5 md:p-10 border-[1px] max-h-[80vh] overflow-y-auto w-full"
+        className="rounded-md space-y-8 py-5 p-5 md:p-10 border-[1px] text-left max-h-[80vh] overflow-y-auto w-full"
       >
         <FormInputField
           control={control}

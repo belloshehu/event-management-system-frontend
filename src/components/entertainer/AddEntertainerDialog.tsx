@@ -13,7 +13,7 @@ export default function AddEntertainerDialog() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Dialog modal={true} onOpenChange={setIsOpen}>
-      <DialogTrigger className="bg-black text-white p-2 px-4 rounded-md">
+      <DialogTrigger className="bg-green-400 text-white p-2 px-4 rounded-md">
         Add Entertainer
       </DialogTrigger>
       <DialogContent>

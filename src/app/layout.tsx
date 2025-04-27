@@ -7,8 +7,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { jura } from "./fonts";
 
 export const metadata: Metadata = {
-  title: "Event Centers Management System",
-  description: "A platform for managing event centers",
+  title: "Eventman",
+  description: "A platform for renting event centers and hiring entertainers",
 };
 
 export default function RootLayout({

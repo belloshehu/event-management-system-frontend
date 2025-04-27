@@ -1,10 +1,9 @@
 "use client";
-import { useGetEntertainers } from "@/hooks/service-hooks/entertainer.hooks";
 import Entertainer from "./Entertainer";
 import NoEntertainerDataCard from "./NoEntertainerDataCard";
 import { NoDataOptions } from "@/types/data.types";
-import { LoadingDialog } from "../LoadingDialog";
 import { EntertainerType } from "@/types/entertainer.types";
+import { EntertainerSkeletonList } from "../skeletons/entertainer/EntertainerSkeleton";
 
 interface EntertainerListProps {
   noDataOptions?: NoDataOptions;
@@ -16,8 +15,7 @@ export default function EntertainerList({
   data,
   isLoading,
 }: EntertainerListProps) {
-  if (isLoading)
-    return <LoadingDialog loadingText="Loading entertainers" open={isLoading} />;
+  if (isLoading) return <EntertainerSkeletonList />;
 
   if (!data || data.length === 0)
     return <NoEntertainerDataCard className="mx-auto my-20" {...noDataOptions} />;

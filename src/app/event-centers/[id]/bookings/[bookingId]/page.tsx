@@ -2,6 +2,7 @@
 import DateDisplay from "@/components/DateDisplay";
 import EntertainerList from "@/components/entertainer/EntertainerList";
 import { LoadingDialog } from "@/components/LoadingDialog";
+import PageWrapper from "@/components/page/PageWrapper";
 import TimeDisplay from "@/components/TimeDisplay";
 import Title from "@/components/Title";
 import { Badge } from "@/components/ui/badge";
@@ -80,7 +81,7 @@ export default function EventCenterBookingDetailPage() {
     user,
   } = data.data;
   return (
-    <div className="flex items-center justify-start min-h-screen flex-col gap-10 p-5 py-10 md:py-20 md:px-20 bg-slate-50">
+    <PageWrapper>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
         <div className="flex flex-col items-start justify-start gap-5">
           <Image
@@ -212,6 +213,6 @@ export default function EventCenterBookingDetailPage() {
           noDataOptions={{ title: "No entertainers", message: "" }}
         />
       </section>
-    </div>
+    </PageWrapper>
   );
 }

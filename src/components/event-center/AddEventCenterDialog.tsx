@@ -9,6 +9,7 @@ import {
 import EventCenterForm from "./EventCenterForm";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
 
 export default function AddEventCenterDialog({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
@@ -21,9 +22,12 @@ export default function AddEventCenterDialog({ className }: { className?: string
   return (
     <Dialog modal={true} open={open} onOpenChange={setOpen}>
       <DialogTrigger
-        className={cn("bg-green-400 text-white p-2 px-4 rounded-md", className)}
+        className={cn(
+          "bg-green-400 text-white gap-2 p-1 px-3 rounded-md flex items-center",
+          className
+        )}
       >
-        Add Event Center
+        <Plus size={16} color="white" /> Event Center
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Event Center Form</DialogTitle>

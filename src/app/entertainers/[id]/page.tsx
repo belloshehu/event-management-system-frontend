@@ -1,6 +1,7 @@
 "use client";
 import { anton, robotoMono } from "@/app/fonts";
 import NoContent from "@/components/NoContent";
+import PageWrapper from "@/components/page/PageWrapper";
 import Item from "@/components/ui/items";
 import { useGetEntertainer } from "@/hooks/service-hooks/entertainer.hooks";
 import { cn } from "@/lib/utils";
@@ -66,7 +67,7 @@ export default function EntertainerDetailPage() {
   } = data.data;
 
   return (
-    <div className="flex items-start justify-start min-h-screen flex-col gap-8 p-5 py-10 md:py-20 md:px-20 bg-slate-50">
+    <PageWrapper>
       <div className="w-full max-h-[400px] relative">
         {/* availability of the entertainer */}
         <div
@@ -205,6 +206,6 @@ export default function EntertainerDetailPage() {
       {/* Reviews */}
       <h3 className="font-semibold ">Reviews</h3>
       <NoContent message="No reviews yet" />
-    </div>
+    </PageWrapper>
   );
 }
