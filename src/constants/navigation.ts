@@ -6,7 +6,7 @@ export const navItems: NavigationItemType[] = [
   { path: "/partnership", name: "Partnership" },
   { path: "/event-centers", name: "Event centers" },
   // { path: "/event-planner", name: "Event planner" },
-  // { path: "/studio", name: "Studio" },
+  { path: "/caterers", name: "Caterers" },
 ];
 
 export const adminNavItems: NavigationItemType[] = [

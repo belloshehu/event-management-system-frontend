@@ -9,12 +9,12 @@ import {
 import EntertainerForm from "./EntertainerForm";
 import { useState } from "react";
 
-export default function AddEntertainerDialog() {
+export default function AddEntertainerDialog({ triggerText }: { triggerText?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Dialog modal={true} onOpenChange={setIsOpen}>
       <DialogTrigger className="bg-green-400 text-white p-2 px-4 rounded-md">
-        Add Entertainer
+        {triggerText || "Add Entertainer"}
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Entertainer Form</DialogTitle>

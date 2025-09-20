@@ -12,13 +12,13 @@ import { Button } from "./ui/button";
 import {
   ChevronRight,
   Drum,
-  Flower,
   Handshake,
   Home,
   MenuIcon,
   Table,
   UserCircle,
   Users,
+  CookingPot,
 } from "lucide-react";
 import Brand from "./Brand";
 import { motion } from "motion/react";
@@ -116,6 +116,14 @@ export default function NavigationDrawer() {
               >
                 <Drum className="text-inherit text-3xl" size={24} />
                 <Link href="/entertainers">Entertainers</Link>
+              </NavButton>
+              <NavButton
+                pathname="/entertainers"
+                currentPathname={pathname}
+                onClick={() => setToggleDrawer(false)}
+              >
+                <CookingPot className="text-inherit text-3xl" size={24} />
+                <Link href="/caterers">Caterers</Link>
               </NavButton>
               <NavButton
                 pathname="/events"

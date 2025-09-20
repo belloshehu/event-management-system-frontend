@@ -8,6 +8,8 @@ import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 
 import {
+  availabilityOptions,
+  currencyOptions,
   entertainmentOptions,
   supportedEvents,
   supportedLanguagesOptions,
@@ -131,7 +133,7 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
           errorMessage={errors.price?.message}
         />
 
-        <FormInputField
+        {/* <FormInputField
           control={control}
           name="currency"
           label="Currency"
@@ -139,6 +141,13 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
           id="currency"
           placeholder="Enter currency"
           errorMessage={errors.currency?.message}
+        /> */}
+
+        <FormSelect
+          options={currencyOptions}
+          placeholder="Select currency"
+          register={register("currency")}
+          control={control}
         />
 
         <FormMultiSelect
@@ -151,7 +160,7 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
         />
 
         <FormSelect
-          options={entertainmentOptions}
+          options={availabilityOptions}
           placeholder="Select status"
           register={register("availability")}
           control={control}
