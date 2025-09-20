@@ -30,12 +30,12 @@ export const useSignup = () => {
   return useMutation({
     mutationFn: AuthServiceAPI.registerUser,
     onSuccess: () => {
-      toast.success("Signup successfullys");
+      toast.success("Signup successfully");
       router.push("/login");
     },
     onError: (error) => {
       const err = error as AxiosError<{ message: string; status: string }>;
-      toast.error(err.response?.data.message || "Failed to signups");
+      toast.error(err.response?.data.message || "Failed to signup");
     },
   });
 };

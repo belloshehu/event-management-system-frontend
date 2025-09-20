@@ -47,6 +47,17 @@ export default function Home() {
           className="bg-black "
         />
       </AnimationWrapper>
+      <AnimationWrapper>
+        <Section
+          imageUrl="/decoration.jpg"
+          heading="Decorate your event with us"
+          buttonText="Try decoration studio"
+          description="Use our decoration studio to design your event hall with ease using AI"
+          reversed
+          url="/studio"
+          className="bg-green-600 "
+        />
+      </AnimationWrapper>
     </main>
   );
 }

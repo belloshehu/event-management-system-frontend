@@ -6,7 +6,7 @@ export const navItems: NavigationItemType[] = [
   { path: "/partnership", name: "Partnership" },
   { path: "/event-centers", name: "Event centers" },
   // { path: "/event-planner", name: "Event planner" },
-  { path: "/studio", name: "Studio" },
+  // { path: "/studio", name: "Studio" },
 ];
 
 export const adminNavItems: NavigationItemType[] = [
@@ -54,6 +54,7 @@ export const adminNavItems: NavigationItemType[] = [
     name: "Notifications",
     path: "/dashboard/admin/notifications",
   },
+  { path: "/studio", name: "Studio", active: true },
 ];
 
 export const userNavItems: NavigationItemType[] = [
@@ -87,6 +88,7 @@ export const userNavItems: NavigationItemType[] = [
     path: "/dashboard/user/notifications",
     active: true,
   },
+  { path: "/studio", name: "Studio", active: true },
 ];
 
 export const partnerNavItems: NavigationItemType[] = [
@@ -115,4 +117,5 @@ export const partnerNavItems: NavigationItemType[] = [
     path: "/dashboard/partner/notifications",
     active: true,
   },
+  { path: "/studio", name: "Studio", active: true },
 ];

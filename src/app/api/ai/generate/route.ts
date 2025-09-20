@@ -22,17 +22,23 @@ export async function POST(request: Request) {
       );
     }
 
-    const contents = [
-      { text: prompt },
-      {
-        inlineData: {
-          mimeType: "image/jpeg",
-          data: image?.split(",")[1],
+    let contents = null;
+    if (image) {
+      contents = [
+        { text: prompt },
+        {
+          inlineData: {
+            mimeType: "image/jpeg",
+            data: image?.split(",")[1],
+          },
         },
-      },
-    ];
+      ];
+    } else {
+      contents = prompt;
+    }
 
-    // Generate the content
+    // Generate the content when Image is provided
+
     const result = await ai.models.generateContent({
       model: "gemini-2.0-flash-exp-image-generation",
       contents: contents,

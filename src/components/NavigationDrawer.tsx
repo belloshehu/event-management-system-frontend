@@ -133,14 +133,6 @@ export default function NavigationDrawer() {
                 <Handshake className="text-inherit text-3xl" size={24} />
                 <Link href="/partnership">Partnership</Link>
               </NavButton>
-              <NavButton
-                pathname="/studio"
-                currentPathname={pathname}
-                onClick={() => setToggleDrawer(false)}
-              >
-                <Flower className="text-inherit text-3xl" size={24} />
-                <Link href="/studio">AI Decoration Studio</Link>
-              </NavButton>
             </>
           ) : (
             <NavigationDrawerDashboardItems toggleDrawer={setToggleDrawer} />

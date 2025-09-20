@@ -4,7 +4,7 @@ import { getIronSession } from "iron-session";
 import { SessionData, sessionOptions } from "./lib/session/session.lib";
 
 // 1. Specify protected and public routes
-const protectedRoutes = ["/dashboard", "/dashboard/:path*", "/booking/:path*"];
+const protectedRoutes = ["/dashboard", "/dashboard/:path*", "/booking/:path*", "/studio"];
 const publicRoutes = ["/login", "/signup"];
 
 export default async function middleware(req: NextRequest) {
@@ -18,7 +18,9 @@ export default async function middleware(req: NextRequest) {
   const isProtectedRoute =
     protectedRoutes.includes(path) ||
     path.startsWith("/dashboard") ||
-    path.startsWith("/booking");
+    path.startsWith("/booking") ||
+    path.startsWith("/studio");
+
   const isPublicRoute = publicRoutes.includes(path);
 
   // 4. Redirect to /login if the user is not authenticated

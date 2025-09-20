@@ -39,8 +39,6 @@ export default function DecorationGnerationForm({
   });
 
   const onSubmit = async (data: DecorationGenerationSchemaType) => {
-    // upload the images to cloudinary
-    console.log(NEXT_PUBLIC_PROD_BASE_URL);
     const image = data.image[0].data_url;
     const formData = new FormData();
     formData.append("image", data.image[0].data_url);
