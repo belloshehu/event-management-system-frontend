@@ -1,11 +1,11 @@
-import { EntertainerType } from "@/types/entertainer.types";
+import { CatererType } from "@/types/caterer.types";
 import { CheckCircle, StopCircleIcon, User } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
 interface CatererProps {
-  data: EntertainerType;
+  data: CatererType;
   simple?: boolean;
 }
 
@@ -15,8 +15,6 @@ export default function Caterer({ data, simple }: CatererProps) {
     images,
     availability,
     userId: { firstName, lastName },
-    price,
-    currency,
     _id,
   } = data;
 
@@ -37,9 +35,6 @@ export default function Caterer({ data, simple }: CatererProps) {
           <Link href={`/entertainers/${_id}`}>
             <h3>{name}</h3>
           </Link>
-          <h3 className="font-bold text-xl md:text-3xl">
-            {price} <span className="text-sm font-normal">{currency}</span>
-          </h3>
         </div>
       </div>
     );
@@ -50,8 +45,8 @@ export default function Caterer({ data, simple }: CatererProps) {
         src={images[0]}
         alt={name}
         width={200}
-        height={400}
-        className="w-full full object-cover rounded-md"
+        height={200}
+        className="w-full full h-[200px] object-cover rounded-md"
       />
       <div className="absolute top-0 right-0 p-2 z-20">
         {availability ? (
@@ -71,7 +66,7 @@ export default function Caterer({ data, simple }: CatererProps) {
           </p>
         </div>
 
-        <Link href={`/entertainers/${_id}`}>
+        <Link href={`/caterers/${_id}`}>
           <Button className="w-fit mt-2 bg-white group-hover:bg-green-500 group-hover:text-white text-black">
             Book
           </Button>

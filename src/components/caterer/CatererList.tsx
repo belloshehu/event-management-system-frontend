@@ -1,28 +1,28 @@
 "use client";
-import NoEntertainerDataCard from "./NoCatererDataCard";
+import NoCatererDataCard from "./NoCatererDataCard";
 import { NoDataOptions } from "@/types/data.types";
-import { EntertainerType } from "@/types/entertainer.types";
-import { EntertainerSkeletonList } from "../skeletons/entertainer/EntertainerSkeleton";
+import { CatererType } from "@/types/caterer.types";
+import { EntertainerSkeletonList } from "@/components/skeletons/entertainer/EntertainerSkeleton";
 import Caterer from "./Caterer";
 
-interface EntertainerListProps {
+interface CatererListProps {
   noDataOptions?: NoDataOptions;
-  data: EntertainerType[];
+  data: CatererType[];
   isLoading?: boolean;
 }
 export default function CatererList({
   noDataOptions,
   data,
   isLoading,
-}: EntertainerListProps) {
+}: CatererListProps) {
   if (isLoading) return <EntertainerSkeletonList />;
 
   if (!data || data.length === 0)
-    return <NoEntertainerDataCard className="mx-auto my-20" {...noDataOptions} />;
+    return <NoCatererDataCard className="mx-auto my-20" {...noDataOptions} />;
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full md:w-4/5">
-      {data?.map((entertainer) => (
-        <Caterer data={entertainer} key={entertainer._id} />
+      {data?.map((caterer) => (
+        <Caterer data={caterer} key={caterer._id} />
       ))}
     </section>
   );

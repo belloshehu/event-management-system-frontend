@@ -1,15 +1,15 @@
 "use client";
 import SearchInput from "@/components/SearchInput";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { useGetEntertainers } from "@/hooks/service-hooks/entertainer.hooks";
 import PageWrapper from "@/components/page/PageWrapper";
 import Title from "@/components/Title";
 import AddCatererDialog from "@/components/caterer/AddCatererDialog";
 import CatererList from "@/components/caterer/CatererList";
+import { useGetCaterers } from "@/hooks/service-hooks/caterer.hook";
 
 export default function CatererListPage() {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { isLoading, data } = useGetEntertainers({ filter: { availability: "all" } });
+  const { isLoading, data } = useGetCaterers({ filter: { availability: "all" } });
   return (
     <PageWrapper>
       {isMobile && <SearchInput placeholder="Search for Caterer" />}
