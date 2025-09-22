@@ -1,7 +1,7 @@
 import React from "react";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Control } from "react-hook-form";
 import { ImagesUploader } from "../ImagesUploader";
+import { Control } from "react-hook-form";
 
 interface FormImagesUploaderProps {
   label?: string;
@@ -13,6 +13,9 @@ interface FormImagesUploaderProps {
   maxNumber?: number;
   maxImageSize: number;
   multiple?: boolean;
+  previewWidth?: number;
+  previewHeight?: number;
+  errorMessage?: string;
 }
 
 export default function FormImagesUploader({
@@ -39,7 +42,7 @@ export default function FormImagesUploader({
               {...props}
             />
           </FormControl>
-          <FormMessage />
+          {props.errorMessage && <FormMessage />}
         </FormItem>
       )}
     />

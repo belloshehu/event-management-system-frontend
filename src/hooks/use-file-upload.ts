@@ -6,7 +6,6 @@ import {
 } from "@/types/data.types";
 import { useState } from "react";
 import sha1 from "sha1";
-import { set } from "zod";
 
 export default function useFileUpload() {
   const [isProgressing, setIsProgressing] = useState(false);

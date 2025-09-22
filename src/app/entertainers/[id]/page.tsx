@@ -67,7 +67,7 @@ export default function EntertainerDetailPage() {
   } = data.data;
 
   return (
-    <PageWrapper>
+    <PageWrapper className="items-start">
       <div className="w-full max-h-[400px] relative">
         {/* availability of the entertainer */}
         <div

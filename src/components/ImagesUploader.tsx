@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { Pen, Plus, Trash } from "lucide-react";
 import Image from "next/image";
-import ErrorText from "./Error";
+import ErrorText from "@/components/Error";
 
 interface ImagesUploaderProps {
   className?: string;
@@ -16,6 +16,8 @@ interface ImagesUploaderProps {
   withUpdate?: boolean;
   withRemove?: boolean;
   multiple?: boolean;
+  previewWidth?: number;
+  previewHeight?: number;
 }
 
 export function ImagesUploader({
@@ -27,6 +29,8 @@ export function ImagesUploader({
   withUpdate,
   maxImageSize,
   multiple,
+  previewWidth = 60,
+  previewHeight = 60,
 }: ImagesUploaderProps) {
   const onChange = (imageList: ImageListType) => {
     // data for submit
@@ -55,11 +59,11 @@ export function ImagesUploader({
           errors,
         }) => (
           // write your building UI
-          <div className="upload__image-wrapper">
+          <div className="upload__image-wrapper flex items-center justify-center">
             {(multiple || imageList.length === 0) && (
               <Button
                 className={cn(
-                  "h-full bg-gray-400 flex flex-col items-center justify-center  gap-2 animate-pulse",
+                  "h-fit bg-gray-400 flex flex-col items-center justify-center  gap-2 animate-pulse w-fit",
                   {
                     isDragging: "text-red-600",
                   }
@@ -67,7 +71,7 @@ export function ImagesUploader({
                 onClick={onImageUpload}
                 {...dragProps}
               >
-                Click or Drop here
+                {/* Click or Drop here */}
                 <Plus size={24} />
               </Button>
             )}
@@ -83,19 +87,19 @@ export function ImagesUploader({
                   <Image
                     src={image["data_url"]}
                     alt=""
-                    width="100"
-                    height="100"
-                    className="rounded-md h-[100px] w-[100px]"
+                    width={previewWidth}
+                    height={previewHeight}
+                    className={cn(`rounded-md h-fit w-[${previewHeight}px]`, {})}
                   />
                   {(withRemove || withUpdate) && (
-                    <div className="image-item__btn-wrapper absolute top-0 right-0 bg-black bg-opacity-10 w-full flex justify-around items-center">
+                    <div className="image-item__btn-wrapper absolute top-0 right-0 bg-blue-400/40 bg-opacity-10 w-full flex justify-around items-center">
                       <Button
                         variant={"ghost"}
                         size={"icon"}
                         className="bg-transparent text-white"
                         onClick={() => onImageUpdate(index)}
                       >
-                        <Pen size={24} />
+                        <Pen size={20} />
                       </Button>
                       <Button
                         variant={"ghost"}
@@ -103,7 +107,7 @@ export function ImagesUploader({
                         className="bg-transparent text-white"
                         onClick={() => onImageRemove(index)}
                       >
-                        <Trash size={24} />
+                        <Trash size={20} />
                       </Button>
                     </div>
                   )}

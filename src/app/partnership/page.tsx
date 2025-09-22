@@ -20,7 +20,7 @@ export default function PartnershipPage() {
         the best in the industry.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full mt-10">
-        <div className="flex flex-col gap-5 p-5 bg-slate-100 rounded-md border-[0px] border-l-slate-200">
+        <div className="flex flex-col gap-5 p-5 md:p-10 bg-slate-100 rounded-md border-[0px] border-l-slate-200">
           <Image
             alt="entertainer"
             src={remoteImages.cateringImage1}
@@ -38,7 +38,7 @@ export default function PartnershipPage() {
           </p>
           <AddCatererDialog triggerText="Register as caterer" />
         </div>
-        <div className="flex flex-col gap-5 p-5 bg-slate-100 rounded-md border-[0px] border-l-slate-200">
+        <div className="flex flex-col gap-5 p-5 md:p-10 bg-slate-100 rounded-md border-[0px] border-l-slate-200">
           <Image
             alt="entertainer"
             src={remoteImages.entertainmentDj2}

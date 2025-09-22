@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAxios } from "@/hooks/use-axios";
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import useFileUpload from "@/hooks/use-file-upload";
 
 import {
   availabilityOptions,
@@ -24,38 +25,71 @@ import FormInputField from "../form-fields/FormInput";
 import FormTextarea from "../form-fields/FormTextarea";
 import FormMultiSelect from "../form-fields/FormMultiSelect";
 import FormImagesUploader from "../form-fields/FormImagesUploader";
+import { toast } from "sonner";
 
 export default function EntertainerForm({ onClose }: { onClose: () => void }) {
   const { mutateAsync, isPending } = useCreateEntertainer();
   const { protectedRequest } = useAxios();
-
+  const { uploadToCloudinary, deleteFromCloudinary, isProgressing } = useFileUpload();
   const form = useForm({
     resolver: zodResolver(entertainerValidationSchema),
 
     defaultValues: {
-      images: [
-        "https://res.cloudinary.com/sightek/image/upload/v1741620903/entertainment_d9dryo.jpg",
-        "https://res.cloudinary.com/sightek/image/upload/v1639945302/samples/people/jazz.jpg",
-      ],
+      // images: [
+      //   "https://res.cloudinary.com/sightek/image/upload/v1741620903/entertainment_d9dryo.jpg",
+      //   "https://res.cloudinary.com/sightek/image/upload/v1639945302/samples/people/jazz.jpg",
+      // ],
     },
   });
 
   const onSubmit = async (data: EntertainerValidationSchemaType) => {
-    mutateAsync({ protectedRequest, payload: data }).then(() => {
-      form.reset();
-      onClose();
-    });
+    console.log("Submitting ... ", data);
+    // Handle form submission logic here
+    // upload the image and thumbnails to cloudinary
+    const image = data.images[0] as any;
+    const data_url = image.data_url as string;
+
+    try {
+      const { secure_url } = await uploadToCloudinary(data_url);
+      if (!secure_url) {
+        toast.error("Failed to upload images");
+        return;
+      }
+      // upload the images to cloudinary
+
+      console.log("Uploading main image");
+      mutateAsync({
+        protectedRequest,
+        payload: {
+          ...data,
+          images: [secure_url],
+        },
+      })
+        .then(() => {
+          form.reset();
+          onClose();
+        })
+        .catch((error) => {
+          // if there is an error delete the uploaded image from cloudinary
+          deleteFromCloudinary(secure_url);
+        });
+    } catch (error) {
+      toast.error("Failed to register entertainer");
+    }
   };
+
   const {
     handleSubmit,
     control,
     register,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = form;
+  console.log(errors);
   return (
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
+        id="entertainer-form"
         className="rounded-md space-y-8 py-5 p-5 md:p-10 border-[1px] text-left max-h-[80vh] overflow-y-auto w-full"
       >
         <FormInputField
@@ -133,16 +167,6 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
           errorMessage={errors.price?.message}
         />
 
-        {/* <FormInputField
-          control={control}
-          name="currency"
-          label="Currency"
-          type="text"
-          id="currency"
-          placeholder="Enter currency"
-          errorMessage={errors.currency?.message}
-        /> */}
-
         <FormSelect
           options={currencyOptions}
           placeholder="Select currency"
@@ -152,7 +176,7 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
 
         <FormMultiSelect
           label="Matching events"
-          name="supported_events_types"
+          name="available_for"
           control={control}
           options={supportedEvents}
           placeholder={"Select events"}
@@ -212,16 +236,22 @@ export default function EntertainerForm({ onClose }: { onClose: () => void }) {
           name="images"
           label="Entertainer Images"
           maxImageSize={1000000}
-          maxNumber={5}
+          maxNumber={3}
           multiple={true}
         />
         <Button
-          disabled={isPending}
-          className={cn("btn btn-primary", { "animate-pulse": isPending })}
+          disabled={isPending || isLoading || isProgressing}
+          className={cn("btn btn-primary", {
+            "animate-pulse": isPending || isLoading || isProgressing,
+          })}
           type="submit"
         >
-          {isPending ? "Adding event center..." : "Submit"}
+          {isPending || isLoading || isProgressing ? "Submitting..." : "Submit"}
         </Button>
+        {errors.root?.message}
+        {errors.root?.message && (
+          <p className="text-sm text-red-600">{errors.root?.message}</p>
+        )}
       </form>
     </Form>
   );

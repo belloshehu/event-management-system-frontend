@@ -61,8 +61,8 @@ export default function Entertainer({ data, simple }: EntertainerProps) {
         src={images[0]}
         alt={name}
         width={200}
-        height={400}
-        className="w-full full object-cover rounded-md"
+        height={100}
+        className="w-full object-cover h-[250px] rounded-md"
       />
       <div className="absolute top-0 right-0 p-2 z-20">
         {availability ? (
