@@ -2,6 +2,7 @@
 import AnimationWrapper from "@/components/animation/AnimationWrapper";
 import Hero from "@/components/landing/Hero";
 import Section from "@/components/landing/Section";
+import { remoteImages } from "@/constants/media/images";
 import { useIsMobile } from "@/hooks/use-mobile";
 import useSession from "@/lib/session/use-session";
 
@@ -49,12 +50,23 @@ export default function Home() {
       </AnimationWrapper>
       <AnimationWrapper>
         <Section
+          imageUrl={remoteImages.cateringImage1}
+          heading="Are you a caterer"
+          buttonText="Register with us"
+          description="	Partner with us to join the list of caterers providing food services in various events in our centers"
+          reversed
+          url="/caterers/"
+          className="bg-black "
+        />
+      </AnimationWrapper>
+      <AnimationWrapper>
+        <Section
           imageUrl="/decoration.jpg"
           heading="Decorate your event with us"
-          buttonText="Try decoration studio"
+          // buttonText="Try decoration studio"
           description="Use our decoration studio to design your event hall with ease using AI"
           reversed
-          url="/studio"
+          // url="/studio"
           className="bg-green-600 "
         />
       </AnimationWrapper>

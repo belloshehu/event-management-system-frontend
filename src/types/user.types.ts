@@ -8,6 +8,10 @@ export interface UserType {
   role: UserRole;
   _id?: string;
   image?: string;
+  offersServices?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  phoneNumber?: string;
 }
 
 export interface UserAuthType {

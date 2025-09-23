@@ -2,13 +2,11 @@
 import { robotoMono } from "@/app/fonts";
 import DishAndBeverageTabs from "@/components/caterer/DishAndBeverageTabs";
 import NoContent from "@/components/NoContent";
-import PageWrapper from "@/components/page/PageWrapper";
 import Item from "@/components/ui/items";
-import { useGetCaterer } from "@/hooks/service-hooks/caterer.hook";
+import { useGetUserCaterer } from "@/hooks/service-hooks/caterer.hook";
 import { cn } from "@/lib/utils";
 import { CheckCircle, MapPin, StopCircleIcon, UserCircle } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const renderItems = (items: string[]) => (
@@ -19,11 +17,10 @@ const renderItems = (items: string[]) => (
   </ul>
 );
 
-export default function CatererDetailPage() {
-  const { id } = useParams();
+export default function UserCateringServiceDetailPage() {
   const [imageIndex, setImageIndex] = useState(0);
 
-  const { data, isLoading } = useGetCaterer(id as string);
+  const { data, isLoading } = useGetUserCaterer();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -56,7 +53,7 @@ export default function CatererDetailPage() {
   } = data.data;
 
   return (
-    <PageWrapper className="items-start">
+    <div className="flex flex-col items-start w-full gap-5">
       <div className="w-full max-h-[400px] relative">
         {/* availability of the entertainer */}
         <div
@@ -150,11 +147,11 @@ export default function CatererDetailPage() {
         <div className="flex items-start gap-2">{renderItems(available_for)}</div>
       </div>
       {/* Tabs for beeverages and dishes  */}
-      <DishAndBeverageTabs catererId={id as string} />
+      <DishAndBeverageTabs catererId={data?.data._id as string} />
 
       {/* Reviews */}
       <h3 className="font-semibold ">Reviews</h3>
       <NoContent message="No reviews yet" />
-    </PageWrapper>
+    </div>
   );
 }

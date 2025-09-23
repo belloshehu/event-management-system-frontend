@@ -20,7 +20,7 @@ export default function CatererList({
   if (!data || data.length === 0)
     return <NoCatererDataCard className="mx-auto my-20" {...noDataOptions} />;
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full md:w-4/5">
+    <section className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full md:w-full">
       {data?.map((caterer) => (
         <Caterer data={caterer} key={caterer._id} />
       ))}

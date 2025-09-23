@@ -49,6 +49,14 @@ class CatererServiceAPI {
     return data;
   }
 
+  // get user's catering service
+  static async getUserCaterer({ protectedRequest }: { protectedRequest: AxiosInstance }) {
+    const { data } = await protectedRequest.get<SingleCatererResponseType>(
+      `/caterers/user/service`
+    );
+    return data;
+  }
+
   static async updateCaterer({
     protectedRequest,
     caterer,

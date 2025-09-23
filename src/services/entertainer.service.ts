@@ -52,6 +52,18 @@ class EntertainerServiceAPI {
     return data;
   }
 
+  // get user's entertaining service
+  static async getUserEntertainer({
+    protectedRequest,
+  }: {
+    protectedRequest: AxiosInstance;
+  }) {
+    const { data } = await protectedRequest.get<SingleEntertainerResponseType>(
+      `/entertainers/user/service`
+    );
+    return data;
+  }
+
   static async updateEntertainer({
     protectedRequest,
     entertainer,

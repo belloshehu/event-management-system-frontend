@@ -30,6 +30,15 @@ export const useGetCaterer = (id: string) => {
   });
 };
 
+// hook for fetching user's Caterering service
+export const useGetUserCaterer = () => {
+  const { protectedRequest } = useAxios();
+  return useQuery({
+    queryFn: async () => await CatererServiceAPI.getUserCaterer({ protectedRequest }),
+    queryKey: ["user-caterer"],
+  });
+};
+
 // hook for adding an Caterer
 export const useCreateCaterer = () => {
   const queryClient = useQueryClient();

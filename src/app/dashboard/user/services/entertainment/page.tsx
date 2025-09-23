@@ -1,12 +1,21 @@
 "use client";
-import { robotoMono } from "@/app/fonts";
-import DishAndBeverageTabs from "@/components/caterer/DishAndBeverageTabs";
+import { anton, robotoMono } from "@/app/fonts";
 import NoContent from "@/components/NoContent";
 import PageWrapper from "@/components/page/PageWrapper";
 import Item from "@/components/ui/items";
-import { useGetCaterer } from "@/hooks/service-hooks/caterer.hook";
+import {
+  useGetEntertainer,
+  useGetUserEntertainer,
+} from "@/hooks/service-hooks/entertainer.hooks";
 import { cn } from "@/lib/utils";
-import { CheckCircle, MapPin, StopCircleIcon, UserCircle } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  Drum,
+  MapPin,
+  StopCircleIcon,
+  UserCircle,
+} from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,11 +28,11 @@ const renderItems = (items: string[]) => (
   </ul>
 );
 
-export default function CatererDetailPage() {
+export default function UserEntertainmentServiceDetailPage() {
   const { id } = useParams();
   const [imageIndex, setImageIndex] = useState(0);
 
-  const { data, isLoading } = useGetCaterer(id as string);
+  const { data, isLoading } = useGetUserEntertainer();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -51,12 +60,17 @@ export default function CatererDetailPage() {
     country,
     description,
     images,
+    performance_duration,
+    currency,
+    performance_languages,
+    price,
     state,
+    type,
     userId: { firstName, lastName },
   } = data.data;
 
   return (
-    <PageWrapper className="items-start">
+    <div className="flex flex-col items-start w-full gap-5">
       <div className="w-full max-h-[400px] relative">
         {/* availability of the entertainer */}
         <div
@@ -121,6 +135,48 @@ export default function CatererDetailPage() {
         </div>
       </div>
 
+      {/* price */}
+      <div className="flex items-center gap-2">
+        <h3 className={`${anton.className} text-xl relative`}>
+          {price}
+          <span
+            className="text-sm absolute top-[-4] text-green-500 font-normal left-[110%]"
+            aria-label="price"
+          >
+            {currency}
+          </span>
+        </h3>
+      </div>
+      {/* perfomance duration */}
+      <div className="flex flex-col items-start gap-2">
+        <span className="p-1 capitalize bg-gray-100 rounded-md text-xs text-green-600 shadow-sm">
+          performance time
+        </span>
+        <div className="flex items-start gap-2">
+          <Clock className="text-green-500" size={20} />
+          <p>{performance_duration} minutes</p>
+        </div>
+      </div>
+
+      {/* entertainer type */}
+      <div className="flex flex-col items-start gap-2">
+        <span className="p-1 bg-gray-100 rounded-md text-xs text-green-600 shadow-sm">
+          performance type
+        </span>
+        <div className="flex items-center gap-2">
+          <Drum size={20} className="text-green-500" />
+          <p className="">{type}</p>
+        </div>
+      </div>
+
+      {/* supported language */}
+      <div className="flex flex-col items-start gap-2">
+        <span className="p-1 bg-gray-100 rounded-md text-xs text-green-600 shadow-sm capitalize">
+          performance languages
+        </span>
+        {renderItems(performance_languages)}
+      </div>
+
       <div>
         <span className="p-1 capitalize bg-gray-100 rounded-md text-xs text-green-600 shadow-sm">
           Description
@@ -149,12 +205,10 @@ export default function CatererDetailPage() {
         </span>
         <div className="flex items-start gap-2">{renderItems(available_for)}</div>
       </div>
-      {/* Tabs for beeverages and dishes  */}
-      <DishAndBeverageTabs catererId={id as string} />
 
       {/* Reviews */}
       <h3 className="font-semibold ">Reviews</h3>
       <NoContent message="No reviews yet" />
-    </PageWrapper>
+    </div>
   );
 }

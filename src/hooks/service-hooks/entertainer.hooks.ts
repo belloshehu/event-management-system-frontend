@@ -64,6 +64,16 @@ export const useUpdateEntertainer = () => {
   });
 };
 
+// hook for fetching user's entertainer service
+export const useGetUserEntertainer = () => {
+  const { protectedRequest } = useAxios();
+  return useQuery({
+    queryFn: async () =>
+      await EntertainerServiceAPI.getUserEntertainer({ protectedRequest }),
+    queryKey: ["user-entertainer"],
+  });
+};
+
 // hook for deleting an entertainer
 export const useDeleteEntertainer = () => {
   const queryClient = useQueryClient();
