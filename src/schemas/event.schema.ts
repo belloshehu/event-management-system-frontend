@@ -18,6 +18,8 @@ export const eventValidationSchema = z
     images: z.array(z.any()).min(1, "At least one image is required"),
     eventType: z.enum(supportedEvents as [string]),
     entertainers: z.array(z.string()).optional(),
+    beverages: z.array(z.object({ id: z.string(), quantity: z.number() })).optional(), // array of beverage added to the event booking with quantity
+    dishes: z.array(z.object({ id: z.string(), quantity: z.number() })).optional(), // array of dishes added to the event booking with quantity
   })
   .refine(
     (data) => {

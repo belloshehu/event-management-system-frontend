@@ -9,6 +9,16 @@ export interface SelectDataType {
   label: string;
 }
 
+interface ValueType {
+  quantity: number;
+  id: string;
+}
+
+export interface SelectWithInputDataType {
+  value: ValueType;
+  label: string;
+}
+
 export interface CloudinaryUploadResponseType {
   asset_id: string;
   public_id: string;

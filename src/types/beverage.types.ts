@@ -9,6 +9,7 @@ export interface BeverageType {
   price: number; // price in USD or relevant currency
   description: string;
   caterer: string | CatererType; // caterer id associated with the dish
+  quantity: number; // total number that can be supplied per event
   available: boolean;
   createdAt: string;
   updatedAt: string;
