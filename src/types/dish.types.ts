@@ -7,6 +7,7 @@ export interface DishType {
   image: string;
   size: number; // size in grams or ml
   price: number; // price in USD or relevant currency
+  quantity: number; // total number that can be supplied per event
   description: string;
   caterer: string | CatererType; // caterer id associated with the dish
   available: boolean;

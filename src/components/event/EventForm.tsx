@@ -11,9 +11,8 @@ import { eventValidationSchema, IEventPayloadType } from "@/schemas/event.schema
 import FormTextarea from "../form-fields/FormTextarea";
 import FormSelect from "../form-fields/FormSelect";
 import FormSwitch from "../form-fields/FormSwitch";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetEntertainers } from "@/hooks/service-hooks/entertainer.hooks";
-import { EntertainerType } from "@/types/entertainer.types";
 import FormImagesUploader from "../form-fields/FormImagesUploader";
 import FormMultiSelect from "../form-fields/FormMultiSelect";
 import useSession from "@/lib/session/use-session";
@@ -26,6 +25,14 @@ import { useRouter } from "next/navigation";
 import { useLoading } from "@/hooks/use-loading";
 import useFileUpload from "@/hooks/use-file-upload";
 import { toast } from "sonner";
+import { useGetDishes } from "@/hooks/service-hooks/dish.hooks";
+import { useGetBeverages } from "@/hooks/service-hooks/beverage.hook";
+import {
+  useGetBeverageOptionsData,
+  useGetDishOptionsData,
+  useGetEntertainerOptionsData,
+} from "@/hooks/use-get-options";
+import FormMultiSelectWithInput from "../form-fields/FormMultipleSelectWithInput";
 
 /*
     This form is used to book an event center
@@ -40,6 +47,8 @@ import { toast } from "sonner";
 interface EventFormProps {
   className?: string;
   setSelectedEntertainers: (entertainers: string[]) => void;
+  setSelectedDishes: (dishes: { id: string; quantity: number }[]) => void;
+  setSelectedBeverages: (beverages: { id: string; quantity: number }[]) => void;
   supportedEvtentsTypes: string[];
   eventCenter: { _id: string };
   totalCost: number; // total cost of the event center and entertainers
@@ -48,6 +57,8 @@ interface EventFormProps {
 export default function EventForm({
   className,
   setSelectedEntertainers,
+  setSelectedBeverages,
+  setSelectedDishes,
   supportedEvtentsTypes,
   eventCenter,
   totalCost,
@@ -59,8 +70,17 @@ export default function EventForm({
   const { data, isLoading } = useGetEntertainers({
     filter: { availability: "available" },
   });
+  const { isLoading: loadingDishes, data: dishesData } = useGetDishes({
+    filter: { available: true },
+  });
+  const { isLoading: loadingBeverages, data: beveragesData } = useGetBeverages({
+    filter: { available: true },
+  });
+
   const { protectedRequest } = useAxios();
   const [withEntertainers, setWithEntertainers] = useState(false);
+  const [withDishes, setWithDishes] = useState(false);
+  const [withBeverages, setWithBeverages] = useState(false);
   const router = useRouter();
   const { getLoadingText } = useLoading();
   const { uploadToCloudinary } = useFileUpload();
@@ -72,6 +92,13 @@ export default function EventForm({
     },
   } = useSession();
   const { useCustomFlutterwave } = usePayment();
+
+  const form = useForm({
+    resolver: zodResolver(eventValidationSchema),
+    defaultValues: {
+      eventCenter: eventCenter._id,
+    },
+  });
 
   const { handleFlutterPayment, closePaymentModal } = useCustomFlutterwave(
     makeFlutterwareConfig({
@@ -89,30 +116,31 @@ export default function EventForm({
     })
   );
 
-  const getEntetainerOptions = useCallback(
-    (entertainers: EntertainerType[]) => {
-      return entertainers
-        .filter((entertainer) => entertainer.availability === "available")
-        .map(({ _id, name }) => {
-          return {
-            value: _id,
-            label: name,
-          };
-        });
-    },
-    [data]
-  );
+  const getEntetainerOptions = useGetEntertainerOptionsData(data);
+  const getDishOptions = useGetDishOptionsData(dishesData);
+  const getBeverageOptions = useGetBeverageOptionsData(beveragesData);
 
   const toggleEntertainers = () => {
     setWithEntertainers(!withEntertainers);
+    if (!withEntertainers) {
+      setSelectedEntertainers([]);
+    }
   };
 
-  const form = useForm({
-    resolver: zodResolver(eventValidationSchema),
-    defaultValues: {
-      eventCenter: eventCenter._id,
-    },
-  });
+  const toggleDishes = () => {
+    setWithDishes(!withDishes);
+    console.log("dishes: ", form.getValues("dishes"));
+    if (!withDishes) {
+      setSelectedDishes([]);
+    }
+  };
+
+  const toggleBeverages = () => {
+    setWithBeverages(!withBeverages);
+    if (!withBeverages) {
+      setSelectedBeverages([]);
+    }
+  };
 
   const onSubmit = async (data: IEventPayloadType) => {
     // step 1: create event instance
@@ -195,10 +223,30 @@ export default function EventForm({
     formState: { errors, isSubmitting },
     watch,
   } = form;
-  const val = watch("entertainers");
-  if (val) {
-    setSelectedEntertainers(val);
-  }
+
+  useEffect(() => {
+    const val = watch("entertainers");
+    const beverages = watch("beverages");
+    const dishes = watch("dishes");
+
+    if (val) {
+      setSelectedEntertainers(val);
+    } else {
+      setSelectedEntertainers([]);
+    }
+
+    if (beverages) {
+      setSelectedBeverages(beverages);
+    } else {
+      setSelectedBeverages([]);
+    }
+
+    if (dishes) {
+      setSelectedDishes(dishes);
+    } else {
+      setSelectedDishes([]);
+    }
+  }, [watch("entertainers"), watch("beverages"), watch("dishes")]);
 
   return (
     <Form {...form}>
@@ -304,7 +352,7 @@ export default function EventForm({
           onChange={toggleEntertainers}
           value={withEntertainers}
           description="Add an entertainer to your event"
-          label="Need entertainer"
+          label="Need entertainer?"
           id="entertainers"
         />
 
@@ -320,6 +368,51 @@ export default function EventForm({
             />
           </div>
         )}
+
+        <FormSwitch
+          control={control}
+          onChange={toggleDishes}
+          value={withDishes}
+          description="Order dishes to your event"
+          label="Need some dishes?"
+          id="dishes"
+        />
+
+        {withDishes && (
+          <div className="space-y-2 flex gap-2 items-center justify-start w-full">
+            <FormMultiSelectWithInput
+              label="Dishes"
+              name="dishes"
+              control={control}
+              options={getDishOptions(dishesData?.data || [])}
+              placeholder={isLoading ? "loading ..." : "Select dishes"}
+              emptyMessage="No dishes available"
+              className="w-full"
+            />
+          </div>
+        )}
+
+        <FormSwitch
+          control={control}
+          onChange={toggleBeverages}
+          value={withBeverages}
+          description="Order beverages for your event"
+          label="Need some beverages?"
+          id="beverages"
+        />
+        {withBeverages && (
+          <div className="space-y-2">
+            <FormMultiSelectWithInput
+              label="Beverages"
+              name="beverages"
+              control={control}
+              options={getBeverageOptions(beveragesData?.data || [])}
+              placeholder={isLoading ? "loading ..." : "Select beverages"}
+              emptyMessage="No beverages available"
+            />
+          </div>
+        )}
+
         <Button
           disabled={isSubmitting}
           className={cn("btn btn-primary w-full", { "animate-pulse": isSubmitting })}
