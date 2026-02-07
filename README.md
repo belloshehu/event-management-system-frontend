@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EventMan
+EventMan is an AI-powered event management system which is going to power thousands of event planning professionals, individuals and organizations to rent event venues, along with entertainment services, categring services and get the venue decorated by AI based on the selected event type, and specified colors. 
 
 ## Getting Started
 
